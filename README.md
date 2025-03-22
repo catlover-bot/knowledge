@@ -5,4 +5,4 @@
 
 
 ## 論文読み  
-[memo](reading paper.md)
+[memo](https://github.com/catlover-bot/knowledge/blob/main/reading%20paper.md)
