@@ -120,7 +120,7 @@ BLTの中核となるのは、バイトを動的にパッチにグループ化�
 </details>
 
 # 3/22(Sa)
-<details><sumary>「GPT-4.5」正式発表 "深い思考"をしなくても世界理解と直観力で性能向上</sumary>
+<details><summary>「GPT-4.5」正式発表 "深い思考"をしなくても世界理解と直観力で性能向上</summary>
 
 米OpenAIは2月28日、生成AIチャットの「ChatGPT」に搭載するAIモデルとして「GPT-4.5」を発表した。同社の「o1」や「o3-mini」などの長く考えて性能を向上する方式は取っておらず、教師なし学習により「GPT-4o」よりも高性能になったという。月額200ドルのProユーザーは同日から利用可能。PlusやTeam、Enterpriseなどの有料プランユーザーには一週間ほどで提供する。  
 
@@ -129,4 +129,30 @@ GPT-4.5では、学習時の計算リソースとデータ拡張、アーキテ�
 GPT-4.5を発表したライブ配信では、o1との比較もライブで実施。o１が返答するのに時間をかけるのに対し、GPT-4.5はすぐに返事を返した。登壇した同社の研究者は回答の内容について「o1も役立つ。多くの情報を出力していて、(質問の)話題を初めて学ぶなら知りたいことがたくさんある」としつつ、「GPT-4.5の答えは流れがずっと自然。アイデアを通じて私の思考をガイドしてくれる」と評した。  
 ![image](https://github.com/user-attachments/assets/a47f2700-90ab-4807-af79-e20f9cee3242)  
 
+各種ベンチマークテストでは、すべてのスコアでGPT-4oを超えた一方で、o3-miniには一歩及ばないという結果に。これについて同社の研究者は「o3-miniは答える前に考えることができる。GPT-4.5は答える前に考えることができなくても、このような高いスコアを獲得できるのは非常に印象的」と話した。そんな中でもコーディング性能を測るベンチマーク2種のうちの片方（SWE-Lancer Diamond）では、o3-miniの10.8%を超える32.6%の性能を見せている。  
 
+また、OpenAIは今回のGPT-4.5を「研究プレビュー」と位置付けている。OpenAIもこのモデルを実験している段階であり「教師なし学習で出現する能力をユーザーと一緒に探索したい」とした。  
+![image](https://github.com/user-attachments/assets/b5f97010-17a9-4e86-8ead-f04eabcfaabc)  
+LLM（大規模言語モデル）の事実性を単純ながら難易度の高い知識問題で測定。このテストではo1やo3-miniも抑えてGPT-4.5がトップに  
+
+![image](https://github.com/user-attachments/assets/1e10520c-a2e9-4c7b-ae68-9d0324fb1b66)  
+人間のテスターがGPT-4.5とGPT-4oを比較し評価したところ、3種全てでGPT-4.5が上回った  
+
+![image](https://github.com/user-attachments/assets/3ecbbb65-744f-425b-9486-8f3ad7550f1b)  
+歴代AIモデルに「なぜ海はしょっぱいのか」と聞いた結果。2018年のGPT-1の回答は「ワードサラダ」だった  
+
+![image](https://github.com/user-attachments/assets/6d7ff6fc-55bd-400a-9550-dee15d88447a)  
+2019年のGPT-2になり、間違っているが改善  
+
+![image](https://github.com/user-attachments/assets/05a3788b-07dc-4459-8f96-c701c86967fe)  
+2023年のGPT-3.5 Turboで初めて正解に。しかし説明はなく不要な詳細がある  
+
+![image](https://github.com/user-attachments/assets/07b46dcf-084f-4009-85b9-05a0faddd940)
+GPT-4 Turboは良い答えに。ただし事実をリストアップしているようでもある  
+
+![image](https://github.com/user-attachments/assets/5bc459ae-4f12-4825-86ba-fae495098d85)  
+GPT-4.5は明確で簡潔でまとまりのある答えに  
+
+![image](https://github.com/user-attachments/assets/fbab09e0-0bed-4116-8a1e-4fc4ba8ffde0)  
+GPT-4.5とGPT-4o、o3-miniのベンチマーク比較  
+</details>
