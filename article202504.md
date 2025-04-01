@@ -28,3 +28,42 @@ Qwenの研究チームは広範な世界知識で事前トレーニングを施�
 
 Qwenの研究チームは「強化学習の計り知れない可能性を目の当たりにした」として、次世代のQwenの開発について「より強力な基礎モデルと強化学習を組み合わせる事で人工汎用知能(AGI)の実現に近づけることを確信している」と述べている。
 </details>
+
+<details><summary>GPT-4o miniやClaude 3を無料かつ匿名で誰でも使える「Duck.ai」が登場</summary>
+
+![image](https://github.com/user-attachments/assets/5c867248-b2d4-4f31-926e-5af291b108e4)  
+
+ユーザーのプライバシーを保護し、検索のパーソナイズを行わないことを運営方針とする検索エンジン「DuckDuckGo」が、AIチャットボット用インタフェースである「**Duck.ai**」を一般公開した。誰でも無料かつ匿名で、GPT-4o miniやClaude 3、Llama 3.3などのチャットモデルと会話することが可能  
+
+[Duck.ai](https://duck.ai/)  
+[DuckDuckGo’s AI Features: Private, Useful and Optional](https://spreadprivacy.com/ai-feature-upgrade/)  
+
+Duck.aiにアクセスして、「開始」をクリックする。  
+![image](https://github.com/user-attachments/assets/d63b52cf-cd58-4401-8a45-265379a67d47)  
+
+プライバシーポリシーと利用規約が表示されるので、目を通したら「同意」をクリック。  
+![image](https://github.com/user-attachments/assets/f302372f-c510-4566-8b67-7be1c7506703)  
+
+Duck.aiの画面は以下。  
+![image](https://github.com/user-attachments/assets/ee1a9a61-c635-4558-81bd-39ae3da9c4f5)  
+
+左上に表示されているモデル名をクリックすると、チャットモデルを選択することができる。現時点ではGPT-4o mini、Llama 3.3 70B、Claude 3 Haiku、o3-mini、Mistral Small 3の5種類から選択できる。  
+![image](https://github.com/user-attachments/assets/0054f9ad-f9a3-49bb-b49a-180fbe0f801a)  
+
+試しに、5つんｐモデルに「あなたのモデル名を教えてください」と尋ねてみた。GPT-4o miniは「私はOpenAIの原画モデル」と教えてくれたが、「具体的にGPT-3.5というバージョン」とのことであった。  
+![image](https://github.com/user-attachments/assets/c0fc6afc-74c8-46b4-b225-906d4a8515a7)  
+
+Llama 3.3 70Bは、なぜかAI開発・利用プラットフォームのTogether AIを名乗っている。  
+![image](https://github.com/user-attachments/assets/9e4778ba-4288-4070-9001-de246a094ca4)  
+
+Claude 3 Haikuはかなり細かい回答を返してくれた。DuckDuckGoのプレイバシーレイヤーを通しており、モデル情報が匿名化されていることを明かしてくれる。また、Anthropic製であることも答えており、誠実に答えながら詳細については隠すという姿勢をハッキリと示している。  
+![image](https://github.com/user-attachments/assets/8bd6e3e5-8a77-45b6-9240-97ec1b3e5f98)  
+
+GPT o3-miniは以下の通り。  
+![image](https://github.com/user-attachments/assets/eb387aca-eb74-4d8b-96da-fe8d57070d61)  
+
+Mistral Small 3は、「Mistral AI製である」ということだけ教えてくれた。  
+![image](https://github.com/user-attachments/assets/2d8f28a4-af34-4805-9029-7133f993cbde)  
+
+DuckDuckGoによると、Duck.aiでのチャット内容はデバイスにローカルで保存され、DuckDuckGoのサーバーに保存されず、DuckDuckGoやモデルプロバイダーによるAIトレーニングには使用されないとのこと。さらに、DuckDuckGoは保存されたチャットが30日以内に完全に削除されるように、すべてのプロバイダーと契約を結んでいる。
+</details>
