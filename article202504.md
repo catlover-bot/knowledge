@@ -67,3 +67,9 @@ Mistral Small 3は、「Mistral AI製である」ということだけ教えて�
 
 DuckDuckGoによると、Duck.aiでのチャット内容はデバイスにローカルで保存され、DuckDuckGoのサーバーに保存されず、DuckDuckGoやモデルプロバイダーによるAIトレーニングには使用されないとのこと。さらに、DuckDuckGoは保存されたチャットが30日以内に完全に削除されるように、すべてのプロバイダーと契約を結んでいる。
 </details>
+
+# 4/2(We)
+<details><summary>高速かつ高精度な文字認識AIモデル「Mistral OCR」が登場、LaTexで書かれた数式や図表入りPDFのレイアウトを崩さずマークダウン形式で出力できてJSONへのデータ抽出も簡単に</summary>
+
+
+</details>
