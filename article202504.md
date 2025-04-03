@@ -71,5 +71,30 @@ DuckDuckGoによると、Duck.aiでのチャット内容はデバイスにロー
 # 4/2(We)
 <details><summary>高速かつ高精度な文字認識AIモデル「Mistral OCR」が登場、LaTexで書かれた数式や図表入りPDFのレイアウトを崩さずマークダウン形式で出力できてJSONへのデータ抽出も簡単に</summary>
 
+AI開発企業のMistral AIが、画像に含まれるテキストを認識してテキストデータに変換できるAIモデル「**Mistral OCR**」を発表した。Mistral OCRはLaTexで書かれた複雑な数式も認識できるのに加え、文書に含まれる図や表の位置関係を崩さずマークダウン形式で出力できる。  
+
+[Mistral OCR | Mistral AI](https://mistral.ai/news/mistral-ocr)  
+
+Mistral AIはMistral OCRの能力を示す例を複数公開している。まず、処理前のオリジナルデータが以下。テキストだけでなく図や表も含まれている。  
+![image](https://github.com/user-attachments/assets/d85c687e-a881-42c2-beaf-9401105b047c)  
+
+Mistral OCRで処理した結果はこのようである。図とテキストの位置関係を崩さずに変換できた。また、表の内容も行や列の関係を崩さずに変換できている。OCR結果はマークダウン形式で出力され、出力結果をJSONなどの構造化されたデータ形式にまとめることも可能。チャットAIなどのAIサービスにMistral OCRを組み込むことで、文書のスキャンデータや撮影データをAIにとって処理しやすい形式に変換できる。  
+![image](https://github.com/user-attachments/assets/7ebcb3e7-ebd1-4e2d-9f25-337f013b0ca0)  
+
+複雑な数式を含む文書もOCR処理できる。処理前の元データはこのようである。  
+![image](https://github.com/user-attachments/assets/db2da3c9-886e-442d-af6a-a74ebace7c5f)  
+
+処理結果は以下の通り。数式をそのままの見た目で変換できた。  
+![image](https://github.com/user-attachments/assets/0db3cada-3a41-4bf9-b25f-b600d9a8b978)  
+
+Mistral OCRの性能を「Google Document AI」「Azure OCR」「Gemini 1.5 Flash」「Gemini 1.5 Pro」「Gemini 2.0 Flash」「GPT-4o」と比較した表が以下。Mistral OCRは数式やスキャンデータを含むすべてのカテゴリで最も精度の高いOCRが可能である。  
+
+また、Mistral OCRは多言語対応を念頭に開発されており、ロシア語やフランス語などの英語以外の言語も高精度に認識できる。  
+
+Mistral OCRは動作速度の速さも特徴で、単一ノードで1分当たり最大2000ページのOCR処理が可能である。以下の「図表を含むPDFファイルをマークダウン形式に変換するデモ」を再生すると、処理の速さがよく分かる。  
+
+[Mistral OCR on Alphafold paper - YouTube](https://www.youtube.com/watch?v=6lRBm0KnzBI)  
+
+Mistral OCRは「[Le Chat](https://gigazine.net/news/20241119-mistral-ai-le-chat/)」で無料で使える。また、APIはMistral AIの開発者向けプラットフォーム「la Plateforme」を通じて利用可能。さらに、近日中に各種クラウドプラットフォームでの提供が始まるほか、
 
 </details>
