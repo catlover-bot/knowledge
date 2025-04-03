@@ -95,6 +95,6 @@ Mistral OCRは動作速度の速さも特徴で、単一ノードで1分当た�
 
 [Mistral OCR on Alphafold paper - YouTube](https://www.youtube.com/watch?v=6lRBm0KnzBI)  
 
-Mistral OCRは「[Le Chat](https://gigazine.net/news/20241119-mistral-ai-le-chat/)」で無料で使える。また、APIはMistral AIの開発者向けプラットフォーム「la Plateforme」を通じて利用可能。さらに、近日中に各種クラウドプラットフォームでの提供が始まるほか、
+Mistral OCRは「[Le Chat](https://gigazine.net/news/20241119-mistral-ai-le-chat/)」で無料で使える。また、APIはMistral AIの開発者向けプラットフォーム「la Plateforme」を通じて利用可能。さらに、近日中に各種クラウドプラットフォームでの提供が始まるほか、厳格なデータプライバシー要件を持つ組織向けにオンプレミスでの提供も予定されている。
 
 </details>
