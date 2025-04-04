@@ -1,6 +1,7 @@
 # knowledge  
 
-## 2025 
+## 2025  
+[4月(知見)](article202504.md)
 [3月(知見)](article202503.md)  
 [2月(知見)](article202502.md)  
 [1月(知見)](article202501.md)  
