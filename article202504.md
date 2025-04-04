@@ -116,6 +116,20 @@ PDFからデータを抽出するサービスは既にあるが、画像や表�
 APIでの提供は、1000ページ当たり1ドル。Mistralの他、AWS、Azure、Google Cloud Vertexなどのクラウドパートナーを通じても提供する。また、機密性の高いデータを扱う企業向けに、オンプレミス展開も提供する。  
 
 [公式ブログ](https://mistral.ai/fr/news/mistral-ocr)に、数式やヒンディー語の文書など、OCR前後の文書の比較例が掲載されている。
+</details>
 
+<details><summary>さまざまなAIをWindowsのローカルPCで動かせる「Run llama.cpp Portable Zip on Intel GPU with IPEX-LLM」がDeepSeekにも対応したことをIntelが発表</summary>
 
+近年、高度な生成AIや大規模言語モデルが多数登場しているが、それらを動作させるには高価なGPUなど、相応の危機が必要となる。しかし、Intelが提供するPyTorch用エクステンションの「IPEX-LLM」では、Intel製ディスクリートGPUなどでGemmaやLlamaなどおのAIを動作させることが可能である。今回、そんなIPEX-LLMがDeepSeek-R1に対応したことをIntelが発表した。  
+[ipex-llm/docs/mddocs/Quickstart/llamacpp_portable_zip_gpu_quickstart.md at main · intel/ipex-llm · GitHub](https://github.com/intel/ipex-llm/blob/main/docs/mddocs/Quickstart/llamacpp_portable_zip_gpu_quickstart.md)  
+
+IntelがリリースしているIPEX-LLMとは、Intel製CPUやGPUを搭載したPCで最新のAIを動作させることができるというPyTorch用エクステンションである。  
+
+今回、IntelはIPEX-LLM上でオープンソースソフトウェアライブラリのllama.cppを基にした「llama.cpp Portable Zip」を使うことで、Intel製GPUでもllama.cppを直接実行できるようになったことを発表した、これ伴い、llama.cpp Portable ZipでDeepSeek-R1-671B-Q4_K_Mが実行可能になったことを明らかにしている。  
+
+IntelはGithub上で、llama.cpp Portable Zipのインストール方法ならびにllama.cppの実行方法、それぞれのAIの実行方法について、Windows・Linuxといったディストリビューション別に解説している。  
+
+[ipex-llm/docs/mddocs/Quickstart/llamacpp_portable_zip_gpu_quickstart.md at main · intel/ipex-llm · GitHub](https://github.com/intel/ipex-llm/blob/main/docs/mddocs/Quickstart/llamacpp_portable_zip_gpu_quickstart.md)  
+
+なお、Intelはllama.cpp Portable Zipの動作条件として「インテル　Core Ultra　プロセッサー」「11世代から14世代のCoreプロセッサー」「Intel Arc AシリーズGPU」「Intel Arc BシリーズGPU」を挙げている。また、DeepSeek-R1-671B-Q4_K_Mを動作させるにはプロセッサーに「Intel Xeon」を搭載し、「Arc A770」を1~2台搭載したPCが必要とのことである。  
 </details>
