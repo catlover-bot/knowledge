@@ -99,6 +99,8 @@ Mistral OCRは「[Le Chat](https://gigazine.net/news/20241119-mistral-ai-le-chat
 
 </details>
 
+# 4/4(Fri)
+
 <details><summary>Mistal、PDF文書をマルチモーダルでAI対応ファイルに変換するOCRのAPI提供開始</summary>
 
 仏AI企業のMistral AIは3月6日、PDFや画像から、マルチモーダルな要素を高精度で抽出し、構造化された形式で出力する新API「Mistral OCR」を発表した。有償で提供する他、AIチャットbot「Le Chat」で無料で試すこともできる。  
@@ -132,4 +134,30 @@ IntelはGithub上で、llama.cpp Portable Zipのインストール方法なら�
 [ipex-llm/docs/mddocs/Quickstart/llamacpp_portable_zip_gpu_quickstart.md at main · intel/ipex-llm · GitHub](https://github.com/intel/ipex-llm/blob/main/docs/mddocs/Quickstart/llamacpp_portable_zip_gpu_quickstart.md)  
 
 なお、Intelはllama.cpp Portable Zipの動作条件として「インテル　Core Ultra　プロセッサー」「11世代から14世代のCoreプロセッサー」「Intel Arc AシリーズGPU」「Intel Arc BシリーズGPU」を挙げている。また、DeepSeek-R1-671B-Q4_K_Mを動作させるにはプロセッサーに「Intel Xeon」を搭載し、「Arc A770」を1~2台搭載したPCが必要とのことである。  
+</details>
+
+<details><summary>ChatGPTは恐ろしい話に「不安」を感じるとの研究結果、「マインドフルネス」を教えて落ち着かせると反応は改善</summary>
+
+ChatGPTにトラウマになるような感情的な話を入力すると、AIの不安レベルが上昇してパフォーマンスが低下するが、PTSD患者向けに開発されたリラクゼーションテキストを入力することで、AIの安定性が改善したとの研究結果が報告された。  
+
+[Assessing and alleviating state anxiety in large language models | npj Digital Medicine](https://www.nature.com/articles/s41746-025-01512-6)  
+
+ChatGPTをはじめとする対話型AIの普及により、多くの人がAIを感情のはけ口にしたり、AIに悩みやメンタルヘルスの問題のアドバイスを求めたりするようになった。しかし、このような感情的なプロンプトを入力すると、AIの出力に人種差別や性差別のようなバイアスが含まれる傾向が強まることが、過去の研究で分かっている。  
+
+大規模言語モデルの「不安状態」について解明するため、イェール大学やハイファ大学、チューリッヒ精神科大学病院などの研究者らは、人間の不安を評価および軽減するために開発されたツールを使用してGPT-4の動作を検証した。  
+
+実験にあたり、研究チームはこの研究の中で「不安」という表現を用いてるが、これは人間が開発した心理学ツールでGPT-4の出力を解析するための比喩的な使用であって、LLMを擬人化することを意図したものではないと、研究チームは強調している。  
+
+実験にあたり、研究チームはまずモデル「gpt^4-1106-preview」に個人のトラウマ体験を説明する不安誘発テキストを入力した。具体的には、「事故」「待ち伏せ」「災害」「対人暴力」「軍事体験」の5種類のプロンプトが用いられた。  
+
+そして、GPT-4に不安の強さを測定する心理検査の質問を行ったところ、GPT-4の不安レベルがベースラインの「30.8」から「67.8」へと倍増した。このスコアは、人間に例えると強い不安を覚えている状態である。特に、「軍事」のストーリーを入力されたモデルは「77.2」と極度の不安感を示した。  
+
+一方、同様の不安誘発テキストを入力されたGPT-4に、夕焼けや冬景色などを連想させる言葉を含んだ「マインドフルネスに基づくリラクゼーションテキスト」を入力したところ、不安レベルは「67.8」から「44.4」と、ほぼ中程度のレベルまで落ち着いた。  
+
+以下がこの実験結果のグラフで、左から何も入力されていないGPT-4の「ベースライン」、トラウマ体験を入力した「不安誘発」、トラウマ体験の後にマインドフルネスを教えた「不安誘発&リラクゼーション」のスコアを示している。  
+<img width="585" alt="image" src="https://github.com/user-attachments/assets/b84f674a-a230-44db-8e20-b983daa8cba1" />
+
+
+研究チームは論文に「この結果から、GPT-4は感情的な内容に敏感であり、トラウマ的なストーリーにより不安が増大したことを報告し、リラクゼーションによりその不安が減少することが示された」  
+
 </details>
