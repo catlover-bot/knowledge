@@ -183,3 +183,22 @@ FrontierMathがローンチされた際のベンチマークでは、OpenAIの�
 
 以上の結果より、ChatGPT o3-mini highは明らかに東大受験生を超える数学力を有していると言えるでしょう。
 </details>
+
+<details><summary>Googleが単一のGPUで実行できる中では過去最高の大規模言語モデル「Gemma 3」を発表</summary>
+
+Googleが2025年3月12日に、オープンソースで商用利用も認められている大規模言語モデル「**Gemma 3**」を発表した。Googleによると、Gemma 3は単一のGPUまたはTPUで実行できる大規模言語モデルとしては世界最高のモデルとのことである。  
+
+[Gemma 3: Google’s new open model based on Gemini 2.0](https://blog.google/technology/developers/gemma-3/)  
+
+[Gemma 3 モデルの概要  |  Google AI for Developers](https://ai.google.dev/gemma/docs/core)  
+
+[Gemma3Report.pdf](https://storage.googleapis.com/deepmind-media/gemma/Gemma3Report.pdf)  
+
+GoogleはGeminiの研究資源を活用したオープンソースの大規模言語モデルとして「Gemma」を公開しており、2024年5月にはパラメータ数700億のLlama 3 70Bに匹敵する性能を発揮できる大規模言語モデル「Gemma 2」をリリースしていた。  
+
+そしてGoogleは新たに、Gemma 2の強化版であるGemma 3を発表した。Googleの大規模言語モデル「Gemini 2.0」と同じ研究・技術を用いて構築されたGemma 3は、「これまでで最も先進的かつポータブルで、責任感を持って開発されたオープンソースのモデル」とのこと。  
+
+Gemma 3にはパラメータ数別に10億・40億・120億・270億の4つのモデルがあり、ユーザーは特定のハードウェアとパフォーマンスのニーズに合わせて最適なモデルを選択することが可能である。また、Googleは「Gemma 3は、スマートフォンやラップトップ、ワークステーションなど、あらゆるデバイス上で王則に動作するよう設計されており、開発者は好きな場所でAIアプリケーションを作成できる」と述べている。  
+
+Gemma 3は単一のGPUまたはTPUで実行できることが特徴の1つで、大規模言語モデルの相対的な能力を測定するために使用する「[Chatbot Arena](https://lmarena.ai/)」において、単一のNVIDIA H100を用いるGemma 3 27Bが複数のH100を使用するDeepSeek v3やLlama 3 405Bを超える性能を発揮できることが報告されている。  
+
