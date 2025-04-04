@@ -202,3 +202,17 @@ Gemma 3にはパラメータ数別に10億・40億・120億・270億の4つの�
 
 Gemma 3は単一のGPUまたはTPUで実行できることが特徴の1つで、大規模言語モデルの相対的な能力を測定するために使用する「[Chatbot Arena](https://lmarena.ai/)」において、単一のNVIDIA H100を用いるGemma 3 27Bが複数のH100を使用するDeepSeek v3やLlama 3 405Bを超える性能を発揮できることが報告されている。  
 
+また、Gemma 3は140以上の言語を事前学習済みで、ユーザーの様々な言語に合わせたアプリケーションを構築可能。さらに、12万8000トークンのコンテキストウィンドウを持ち、複雑なタスクの処理を行うこともできる。  
+
+Googleは「Gemma 3の開発の際には、広範なデータガバナンスや、当社の安全ポリシーとの整合性のために微調整を行った。より強力なモデルを開発するに当たって、安全性に対するリスクに比例したアプローチを産業界が共同で開発することが重要になる。私たちは、Gemma 3のようなオープンソースモデルでの安全対策を時間をかけて学ぶ、改善し続けている。」と語った。  
+
+なお、Gemma 3はKaggleならびにHugging Faceで入手可能である。  
+
+[Gemma 3 Release - a google Collection](https://huggingface.co/collections/google/gemma-3-release-67c6c6f89c4f76621268bb6d)  
+
+このほか、大規模言語モデルをローカルで実行させられるライブラリ「Ollama」でもGemma 3を実行することができる。 
+
+[gemma3](https://ollama.com/library/gemma3)
+</details>
+
+<
