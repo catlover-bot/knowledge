@@ -98,3 +98,24 @@ Mistral OCRは動作速度の速さも特徴で、単一ノードで1分当た�
 Mistral OCRは「[Le Chat](https://gigazine.net/news/20241119-mistral-ai-le-chat/)」で無料で使える。また、APIはMistral AIの開発者向けプラットフォーム「la Plateforme」を通じて利用可能。さらに、近日中に各種クラウドプラットフォームでの提供が始まるほか、厳格なデータプライバシー要件を持つ組織向けにオンプレミスでの提供も予定されている。
 
 </details>
+
+<details><summary>Mistal、PDF文書をマルチモーダルでAI対応ファイルに変換するOCRのAPI提供開始</summary>
+
+仏AI企業のMistral AIは3月6日、PDFや画像から、マルチモーダルな要素を高精度で抽出し、構造化された形式で出力する新API「Mistral OCR」を発表した。有償で提供する他、AIチャットbot「Le Chat」で無料で試すこともできる。  
+
+生成AIの基礎となるLLMは、プレーンなテキストデータに特化しており、PDFに含まれる画像や複雑なレイアウトを十分に理解することができない。Mistral OCRがPDFのようなマルチモーダルドキュメントを抽出、出力することで、PDFを直接理解するのが困難なLLMでも、PDFに含まれる情報を効果的に活用できるようになる。  
+
+Mistral OCRは、PDFの内容を単にテキスト化するのではなく、Markdownでフォーマットする。  
+
+![image](https://github.com/user-attachments/assets/ed2e83b1-49bb-4bf6-8635-b574cf2288fe)  
+
+PDFからデータを抽出するサービスは既にあるが、画像や表組み、数式や高精度で理解するのがMistral OCRの特徴である。以下のようなベンチマークを紹介している。なお、比較している他のLLMには画像抽出機能はない。  
+
+![image](https://github.com/user-attachments/assets/0e65f1c6-ed03-4fb4-a31a-fc3c7bbb67bb)  
+
+APIでの提供は、1000ページ当たり1ドル。Mistralの他、AWS、Azure、Google Cloud Vertexなどのクラウドパートナーを通じても提供する。また、機密性の高いデータを扱う企業向けに、オンプレミス展開も提供する。  
+
+[公式ブログ](https://mistral.ai/fr/news/mistral-ocr)に、数式やヒンディー語の文書など、OCR前後の文書の比較例が掲載されている。
+
+
+</details>
