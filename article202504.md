@@ -215,4 +215,13 @@ Googleは「Gemma 3の開発の際には、広範なデータガバナンスや�
 [gemma3](https://ollama.com/library/gemma3)
 </details>
 
-<
+<details><summary>実験版Geminig 2.0 Flashで画像生成が可能に。テキスト連打リングも得意</summary>
+
+![image](https://github.com/user-attachments/assets/11055cfa-8234-471a-b2c1-eb6d9349c617)  
+
+Google AI Studioにおいて、実験版Gemini 2.0 FlashおよびGemini APIを通して画像生成の機能を提供開始した。  
+
+Gemini 2.0 Flashはマルチモーダル入力や強化された推論、自然言語理解を組み合わせて画像を生成する。  
+
+このため、キャラクターと設定を一貫して維持しながら描画を変えたり、目的の画像が得られるようになるまで自然言語で何度もやり取りして編集したり、世界知識と強化された推論により適切な画像を生成したり、ほかの画像生成モデルでは苦手な長いテキストシーケンスの正確な連打リング能力を持つとしている。  
+</details>
