@@ -566,6 +566,6 @@ OpenAIは「OpenAI.fm」というデモサイトを用意しており、「gpt-4
 右上のスライダーを切り替えるとPython・JavaScript・cURLでOpenAIのAPIを利用するためのコードが表示される。API経由でgpt-4o-mini-ttsを使用したい場合、このコードをコピペしてスクリプトや雰囲気を編集するのが簡単そうである。  
 ![image](https://github.com/user-attachments/assets/2ab8bbee-c32f-4d78-960b-f17897108edd)
 
-
-
+今回リリースされた3つのモデルはいずれもトークン数単位で課金されるものの、[OpenAIのドキュメント](https://platform.openai.com/docs/pricing#transcription-and-speech-generation)には音声の時間ごとの料金の目安が掲載されている。  
+![image](https://github.com/user-attachments/assets/db7dda20-a6ac-4ea6-88c7-d3b047ee2b15)  
 </details>
