@@ -551,3 +551,7 @@
 この研究は、入力の工夫（docstringの再構成）がコード生成に与える影響を検証したものであり、今後のコード生成モデルの改善に向けた重要な知見を提供している。
 </details>
 
+<details><summary>LLM-based Code-Switched Text Generation for Grammatical Error Correction</summary>
+
+[参考](https://aclanthology.org/2024.emnlp-main.942.pdf)
+</details>
