@@ -526,6 +526,8 @@
 
 <details><summary>Can docstring reformulation with an LLM improve code generation?</summary>
 
+[参考](https://aclanthology.org/2024.eacl-srw.24.pdf)
+
 関数の説明文（docstring）を大規模言語モデルで再構成することで、コード生成の性能向上を試みた研究である。  
 
 ### 背景と目的
