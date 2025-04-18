@@ -576,8 +576,8 @@
 </details>
 
 <details><summary>Virtual Compiler Is All You Need For Assembly Code Search</summary>
-
-[Virtual Compiler Is All You Need For Assembly Code Search](https://aclanthology.org/2024.acl-long.167.pdf)  
+    
+[参考](https://aclanthology.org/2024.acl-long.167.pdf)  
 
 ### 背景と目的
 リバースエンジニアリングでは、膨大なバイナリファイル内から特定の関数を迅速に特定する必要がある。従来の方法では、ユニークな文字列や定数を検索するなど、経験やヒューリスティックに依存しており、効率が悪いのが現状である。この研究では、自然言語で記述されたクエリから対応するアセンブリコードを検索する手法を提案し、リバースエンジニアリングの効率化を図る。  
