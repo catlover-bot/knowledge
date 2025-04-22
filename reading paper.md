@@ -864,3 +864,13 @@ end
 
 本手法は、**合成データのスケールと品質担保の両立**により、LLMを用いた形式証明生成の実用的可能性を大きく前進させた点で大きな新規性がある。
 </details>
+
+<details><summary>Symbolic Prompt Program Search: A Structure-Aware Approach to Efficient Compile‑Time Prompt Optimization</summary>
+
+[参考](https://aclanthology.org/2024.findings-emnlp.37.pdf)  
+
+## 背景・問題意識
+近年のLLM応用では、プロンプト自体がプログラムとして扱われることが増えており、同一のプログラムが多数のクエリやデータインスタンスに対して繰り返し呼び出される。こうした設定下では、プロンプトプログラムの最適化が実用上の大きな課題となっている。しかし従来手法は、単純なプロンプトのみを対象にするか、プログラム構造が固定されていることを前提としていた。
+
+
+</details>
