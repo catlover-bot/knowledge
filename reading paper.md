@@ -920,7 +920,8 @@ end
 </details>
 
 <details><summary>Large Language Models for Compiler Optimization</summary> 
-    
+
+[参考](https://arxiv.org/pdf/2309.07062?utm_source=chatgpt.com)
 ## 目的
   大規模言語モデル（LLM）をコード最適化問題に応用し、従来のコンパイラ最適化（例：–O3）を上回る性能を実現する。  
     
