@@ -1249,3 +1249,52 @@ LLM は「いかに証明の途中経過を可視化するか」によって，�
 （各文献の詳細は論文末尾の参考文献リストを参照）
 
 </details>
+
+<details><summary>Efficient Neural Theorem Proving via Fine-grained Proof Structure Analysis</summary>
+
+[参考](https://arxiv.org/pdf/2504.11354v1.pdf)
+
+
+## 背景と問題意識
+
+従来のLLMベースの定理証明手法には大きく分けて「証明ステップ逐次生成型（proof-step generation）」と「全体証明一括生成型（whole-proof generation）」があります。前者はインタラクティブ定理証明器（ITP）のタクティックを一手ずつ生成し、その都度状態を更新しながら探索を行うスタイル（例：Polu & Sutskever 2020, Lample et al. 2022など）ですが、後者はIsabelleやLeanのような宣言型システムにおいて、証明全体を一度に生成し検証する手法です。しかし、後者では生成された全体証明案に小さな誤りがあるだけで検証が通らず失敗するため、サンプル効率が低下しやすいという問題があります。このため、近年は「Draft, Sketch, and Prove（DSP）」フレームワーク（Jiang et al. 2023）をはじめ、証明案をざっくり生成した後にオフ･ザ･シェルフのATP（automated theorem prover）へ補完を委ねる手法が提案されていますが、以下の2つの課題が残っています：
+
+1. **難しい中間補題（Hard Conjectures）**: 粗い証明スケッチだと、必要な詳細が欠けているためATPで扱えない中間命題が生まれやすい。
+2. **冗長な証明草稿（Complicated Draft）**: 人間の非形式的証明と形式系のミスマッチにより、不必要に複雑な中間証明を生成してしまい、結果としてATPが処理しづらい命題ができあがる。
+   これらのジレンマにより、サンプル当たりの証明成功率向上が妨げられているのが現状です。 ([ar5iv.org][1], [paperswithcode.com][2])
+
+## 提案手法：ProofAugの概要
+
+ProofAugでは、まずLLMに対して「形式的な完全証明（full proof）」を一度生成させます。これにより「Hard Conjectures」の問題を抑制し、必要な詳細を見逃さない構造情報を得ることを目指しています。その後、モデルが生成した証明案に対して**細粒度（fine-grained）な構造解析**を行い、「最大互換半証明（Maximal Compatible Semi-Proof, MCSP）」を抽出します。MCSPとは、オリジナルの証明案が持つ構造的情報をできるだけ保持しつつ、ITP上で検証を通過可能な（例えば`sorry`を埋め込んで未証明部分を保留した）部分証明を指します。次に、得られたMCSPに対してATPや組み込みタクティックを用いて補完を試みますが、もしATPが失敗した場合には、さらに粗い粒度の半証明へ自動的に遡って補完を再試行します。こうして「Complicated Draft」の問題を回避し、サンプル効率を向上させるのがProofAugのコアアイデアです。さらに、ProofAugは単独の手続きモジュールとして設計されており、任意の木探索アルゴリズムに**プラグアンドプレイ**で組み込むことが可能です。実際に本論文では、ProofAugを組み込んだ**Efficient Recursive Proving（ERP）モジュール**を提案し、0-shot（事前学習データなし）での定理証明性能をさらに高める工夫を示しています。 ([ar5iv.org][1], [paperswithcode.com][2])
+
+## 評価設定および実験結果
+
+評価にはMiniF2F-testベンチマークを用い、オープンソースの7Bパラメータ級LLM「deepseek-math-7b-base」とIsabelle証明アシスタントを組み合わせています。主な評価指標はPass\@k（モデルへの問い合わせ回数k回以内に成功する確率）および「cumulative pass rate」で、限られた問い合わせ予算下でのトータル成功率を示します。
+
+* **ProofAug単体（100クエリ以内）**: MiniF2F-test上でPass\@100＝52.5％を達成し、同等のクエリ数を使った既存手法を上回る性能を示しました。
+* **ERPを導入した場合（0-shot）**: クエリ500回制限下でPass率が54.5％→56.1％へ向上し、他の木探索ベース手法（例：RMaxTS）と比較してサンプル効率が高いことを確認しました。
+* **混合プロンプティング戦略採用時（1700クエリ以内）**: Pass率61.9％を達成し、さらにデータセットを精選（curation）することで2400クエリ以内で累積成功率66.0％を記録。これは――当該ベンチマークにおける全ての証明言語を対象とした――最良（SOTA）値となります。 ([ar5iv.org][1], [paperswithcode.com][2])
+
+## 貢献と意義
+
+1. **細粒度構造解析によるサンプル効率の飛躍的向上**
+
+   * LLM生成証明案からMCSPを抽出し、ATPとタクティックの組み合わせで部分補完を行うことで、最小限のクエリで高い証明成功率を実現。
+2. **汎用的プラグアンドプレイモジュールとしての提案**
+
+   * ProofAugは特定の探索手法に依存せず、既存の木探索アルゴリズムへ容易に組み込むことが可能。この性質を生かしたERPモジュールにより、さらに性能をブーストできることを示した。
+3. **最小限のサンプル予算で新SOTAを更新**
+
+   * MiniF2F-test上で累積成功率66.0％（2400クエリ以内）という結果は、既存の手法を大きく凌駕し、LLMベースの定理証明における新たなベンチマークを打ち立てた点で意義深い。 ([ar5iv.org][1], [paperswithcode.com][2])
+
+## 補足情報とリソース
+
+* 提案手法の詳細な疑似コードや微細な実装手順、事例解析などは論文本文（特にSection 3.2および3.3）に詳述されています。
+* コード実装はGitHub上で公開されており、ProofAugのソースコードや再現実験用スクリプトが参照可能です（[https://github.com/haoxiongliu/ProofAug）。](https://github.com/haoxiongliu/ProofAug）。)
+* MiniF2F-testベンチマーク自体は、Zheng et al. (2021) による定式化ベンチマークで、特に数学的定理証明タスクに最適化されています。
+* 本研究は、LLMと既存定理証明エコシステムの協調（synergy）を促進し、より少ない計算リソースで実用的な定理証明ワークフローを実装できる可能性を示した点で、基礎研究だけでなく応用面にも大きなインパクトを与えるものです。 ([ar5iv.org][1], [paperswithcode.com][2])
+
+[1]: https://ar5iv.org/abs/2501.18310v1 "[2501.18310] 1 Introduction"
+[2]: https://paperswithcode.com/paper/efficient-neural-theorem-proving-via-fine "Efficient Neural Theorem Proving via Fine-grained Proof Structure Analysis | Papers With Code"
+
+</details>
