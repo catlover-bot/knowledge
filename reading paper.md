@@ -1894,3 +1894,603 @@ arXiv:2501.01277v2 \[cs.SE], 3 January 2025 ([arxiv.org][1])
 [1]: https://arxiv.org/pdf/2501.01277 "Language Models for Code Optimization: Survey, Challenges and Future Directions"
 
 </details>
+
+<details><summary>Revisiting Learning-based Commit Message Generation</summary>
+
+以下の論文は、ICSE 2023 で発表された学習ベースのコミットメッセージ生成技術を「パターン」の観点から再評価した研究です。
+
+---
+
+## 1. 論文情報
+
+**タイトル**: Revisiting Learning-based Commit Message Generation
+**著者**: Jinhao Dong, Yiling Lou, Dan Hao, Lin Tan ([cs.purdue.edu][1])
+**会議**: 2023 IEEE/ACM 45th International Conference on Software Engineering (ICSE) ([cs.purdue.edu][1])
+
+---
+
+## 2. 研究背景
+
+* コミットメッセージはコード変更の意図や理由を示し、ソフトウェア保守やバグ解析、自動リリースノート生成など多くのタスクで重要な役割を果たします。しかし、多くのプロジェクトで低品質あるいは空のメッセージが散見され、約14％が空メッセージという報告もあります ([cs.purdue.edu][1])。
+* これまでに、ルールベース、情報検索ベース、学習ベースといった自動生成手法が提案されており、特に深層学習を用いた学習ベース技術はBLEUなどのNLP指標で高評価を得ていますが、生成メッセージの「中身」がどのようなものかは明らかでありませんでした ([cs.purdue.edu][1])。
+
+---
+
+## 3. 研究目的と研究質問
+
+本研究の狙いは、学習ベース手法が「どのような形式のコミットメッセージを生成しているか」を定量的・定性的に明らかにすることです。
+
+* **RQ1**: 既存手法がどのようなパターンのメッセージを生成しているか？
+* **RQ2–RQ4**: データセットの構成、入力表現、モデル構成要素が生成パターンにどのように影響するか？ ([cs.purdue.edu][1])
+
+---
+
+## 4. 手法概要
+
+1. **パターン抽出**
+
+   * まず、既存の学習ベース手法（NMT, PtrGN, CODIS, CoreGen, FIRA）で生成されたメッセージを対象に、Sequential Pattern Mining (MaxSP) を適用し頻出サブシーケンスを抽出。
+   * そこから手動マージを経て「Addition」「Removal」「Fix」「Avoidance」の4大パターンにまとめ上げています ([cs.purdue.edu][1])。
+2. **パターン比率の測定**
+
+   * 生成メッセージとゴールド（実際のコミットメッセージ）の双方でパターンに該当する割合（Pattern Ratio）を算出。
+3. **要因分析**
+
+   * RQ2: 学習データ中のパターン比率を変化させて生成結果を比較
+   * RQ3: 入力を差分マーク（“+”“-”“ ”）のみに変えた場合の性能評価
+   * RQ4: Attention, Copy, Anonymization といったモデル要素の有無によるパターン生成への影響調査 ([cs.purdue.edu][1])。
+
+---
+
+## 5. 主な発見
+
+* **単純パターン偏重**
+  生成メッセージの約90％が「Addition/Removal/Fix/Avoidance」といった単純パターンに該当し、実際のメッセージ（約50％）よりも著しく高い割合を示す ([cs.purdue.edu][1])。
+* **差分マークのみで十分**
+  入力を“+”/“-”/“ ”だけに簡素化しても、元のコード構造や意味情報を含む場合とほぼ同等のパターン比率を維持。モデルはトークンの差分マークを主要な手がかりとして利用していることを示唆します ([cs.purdue.edu][1])。
+* **データセットの影響**
+  訓練データ中のパターン比率が高いほど、生成結果でも同様の比率が増加。一方、非パターンデータを増やしても非パターン生成率はほとんど改善せず、非パターン生成がモデルにとって難易度が高いことが示されました ([cs.purdue.edu][1])。
+* **モデル要素の寄与**
+  Attention や Copy 機構のON/OFFでパターン比率に違いが見られ、特に変更行マークへの重点度合いがモデル挙動に大きく影響することが判明しました ([cs.purdue.edu][1])。
+
+---
+
+## 6. 貢献と示唆
+
+1. **パターン視点の評価指標提案**
+   従来のBLEU等の集約スコアに加え、生成メッセージの構造的な特徴を捉える定量指標を提示。
+2. **学習ベース手法の限界露呈**
+   モデルは差分マークに依存しすぎており、構文／意味情報を十分活用していない実態を明らかにしました。
+3. **改善の方向性提示**
+   非パターン／複雑パターン生成のためには、差分以外のコード情報や文脈理解を強化する必要があることを示唆しています ([cs.purdue.edu][1])。
+
+---
+
+## 7. 今後の展望
+
+* 差分以外の抽象構文木（AST）や静的解析情報を活用した多様なパターン生成手法の検討
+* 非パターン事例に対するデータ収集・拡張によるモデル学習の強化
+* 実開発ワークフローへの統合評価（人間による可読性・有用性評価など）
+
+本論文は、学習ベースのコミットメッセージ生成研究に対して新たな評価軸を提供し、今後の研究方向を具体的に示した重要な知見を与えています。
+
+[1]: https://www.cs.purdue.edu/homes/lintan/publications/commit-icse23.pdf?utm_source=chatgpt.com "Revisiting Learning-Based Commit Message Generation"
+
+</details>
+
+<details><summary>On Automatically Generating Commit Messages via Summarization of Source Code Changes</summary>
+
+以下の論文は、ソースコードの変更セットから自動的にコミットメッセージを生成するアプローチ「ChangeScribe」を提案・評価したものです。
+
+---
+
+## 論文情報
+
+* **タイトル**: On Automatically Generating Commit Messages via Summarization of Source Code Changes
+* **著者**: Luis Fernando Cortés-Coy, Mario Linares-Vásquez, Jairo Aponte, Denys Poshyvanyk ([conf.researchr.org][1])
+* **発表**: 2014 IEEE 14th International Working Conference on Source Code Analysis and Manipulation (SCAM 2014) ([cs.wm.edu][2])
+
+---
+
+## 背景と課題
+
+* 研究調査によれば、23,000以上のJavaプロジェクト中で約10％しか「記述的」なメッセージがなく、66％以上が15語未満と極めて短いか空白であることが報告されています。これはソフトウェアの保守性や履歴分析の妨げになります ([researchgate.net][3])。
+* 手動で書かれるコミットメッセージは記述負荷が高く、書き忘れや質の低いメッセージが多いことから、自動生成のニーズが高まっています。
+
+---
+
+## ChangeScribe のアプローチ
+
+1. **変更セットの抽出**
+
+   * Gitの二つの隣接バージョン $V_{i-1}, V_i$ からJGitを使って差分（Addition・Deletion・Modification）を取得します ([cs.wm.edu][2])。
+2. **コミットステレオタイプ判別**
+
+   * 変更の型（リファクタリング、バグ修正、機能追加など）をカテゴリ化し、大まかな「コミットタイプ」を自動推定。
+3. **インパクトセット分析**
+
+   * 変更対象クラス／メソッドに加え、それを参照する外部メソッドも含めた“影響範囲”を算出し、メッセージの詳細レベルを制御します ([cs.wm.edu][2])。
+4. **自然言語メッセージ生成**
+
+   * （1）全体概要文：コミットステレオタイプ＋主要な変更ファイル数をテンプレートで生成
+   * （2）詳細説明文：各変更要素（クラス名、メソッド名、プロパティ変更など）を文法テンプレートで列挙
+
+---
+
+## 評価
+
+* **データセット**：複数のオープンソースJavaプロジェクトから抽出したコミット履歴
+* **ユーザ調査**：23名の開発者を対象に、ChangeScribe生成メッセージと実際のメッセージを比較。
+
+  * **有用度**：ChangeScribe 出力が「有用」と評価された割合は約75％
+  * **完成度**：要約の網羅性・明瞭性において、手動メッセージと同等以上との評価を多数得ています ([researchgate.net][3])。
+
+---
+
+## 主な貢献と示唆
+
+* **実装可能なツール**
+  SCAM 2015では、論文で提案した手法を実装したEclipseプラグイン版「ChangeScribe」も公開し、実際の開発環境で支援ツールとしての利用を検証しています ([cs.wm.edu][4])。
+* **テンプレート＋構造要約の有効性**
+  シンプルなテンプレート手法ながら、差分情報と影響範囲を組み合わせることで、開発者が理解しやすいメッセージを高い精度で自動生成できることを実証。
+* **今後の展望**
+
+  * リファクタリング検出の強化によるより詳細な文言生成
+  * バグ追跡システム連携による課題／チケット情報の自動付与
+  * 自然言語生成モデル（LLM）とのハイブリッド化による自由記述性の向上
+
+---
+
+この論文は、Diff解析から直接コミットメッセージを“要約”として組み立てる最初期の実用ツールとして高く評価されており、以降の学習ベース／LLMベース手法の礎を築いた研究です。
+
+[1]: https://conf.researchr.org/details/scam-2024/SCAM-2024-research-track/28/MIP-Presentation-On-Automatically-Generating-Commit-Messages-via-Summarization-of-S?utm_source=chatgpt.com "MIP Presentation: \"On Automatically Generating Commit Messages ..."
+[2]: https://www.cs.wm.edu/~denys/pubs/SCAM14-ChangeScribe-CR.pdf?utm_source=chatgpt.com "[PDF] On Automatically Generating Commit Messages via Summarization ..."
+[3]: https://www.researchgate.net/publication/267326224_On_Automatically_Generating_Commit_Messages_via_Summarization_of_Source_Code_Changes?utm_source=chatgpt.com "On Automatically Generating Commit Messages via Summarization ..."
+[4]: https://www.cs.wm.edu/~denys/pubs/ICSE%2715-ChangeScribeTool-CRC.pdf?utm_source=chatgpt.com "[PDF] ChangeScribe: A Tool for Automatically Generating Commit Messages"
+
+</details>
+
+<details><summary>RAG-Enhanced Commit Message Generation</summary>
+
+以下の論文は、2024年6月に発表された「RAG-Enhanced Commit Message Generation」（arXiv:2406.05514v1）で、コミットメッセージ生成（CMG）タスクに対して新たな Retrieval-Augmented Generation（RAG）フレームワーク「REACT」を提案した研究です。
+
+1. **問題意識と提案手法概要**
+   手動でのコミットメッセージ記述は手間がかかる一方、既存の自動生成手法は単一モデルへの依存や限定的なリトリーバル技術に留まっていました。本研究では、Diff–メッセージのペアを「エグザンプル」として検索し、それを生成モデル（PLM／LLM）に組み込むことで、多様なモデルの性能を大きく向上させる汎用的フレームワーク「REACT」を提案します ([arxiv.org][1], [arxiv.org][2])。
+
+2. **REACT の3フェーズ設計**
+
+   * **Retrieve**: ハイブリッドリトリーバーを設計し、コードベースから最も関連性の高い差分（diff）と対応メッセージのペアを取得
+   * **Augment**: 検索ペアをクエリ差分と結合し、特殊トークンやプロンプトテンプレート内に埋め込むことでモデル入力を拡張
+   * **Generate**: 拡張入力を元に、PLMは微調整（fine-tuning）、LLMはインコンテキスト学習でコミットメッセージを生成 ([arxiv.org][1], [arxiv.org][3])。
+
+3. **評価と主な結果**
+   広く利用されるCMGデータセット上で評価を実施。PLM（例：CodeT5）単独適用でも既存最先端法を上回る性能を示し、REACT 統合後は CodeT5 の BLEU スコアを最大55%向上、LLama 3 の BLEU スコアを102%向上させることで、従来手法を大きく凌駕し新たなSOTAを樹立しました ([arxiv.org][1], [arxiv.org][4])。
+
+4. **貢献と今後の展望**
+
+   * **汎用RAGフレームワークの提案**：多様なCLM（PLM／LLM）への適用可能性を示した初の研究
+   * **CLM性能の包括的評価**：微調整・プロンプト適用を含め複数モデルのCMG性能を体系的に報告
+   * **オープンソース再現環境の提供**：論文とともにレプリケーションパッケージを公開し、研究再現性を担保 ([arxiv.org][1], [researchgate.net][5])。
+
+今後は、Issue情報やAST解析など追加情報を統合した拡張や、実開発ワークフロー上でのオンライン評価への応用が期待されます。
+
+[1]: https://arxiv.org/html/2406.05514v1 "RAG-Enhanced Commit Message Generation"
+[2]: https://arxiv.org/html/2406.05514v1?utm_source=chatgpt.com "RAG-Enhanced Commit Message Generation - arXiv"
+[3]: https://arxiv.org/html/2406.05514v3?utm_source=chatgpt.com "RAG-Enhanced Commit Message Generation - arXiv"
+[4]: https://arxiv.org/abs/2406.05514?utm_source=chatgpt.com "[2406.05514] RAG-Enhanced Commit Message Generation - arXiv"
+[5]: https://www.researchgate.net/publication/381307328_RAG-Enhanced_Commit_Message_Generation?utm_source=chatgpt.com "RAG-Enhanced Commit Message Generation - ResearchGate"
+
+</details>
+
+<details><summary>ESGen: Commit Message Generation Based on Edit Sequence of Code Change</summary>
+
+以下の論文は、ASTレベルの編集シーケンスを用いてコミットメッセージを生成する新手法「ESGen」を提案したものです。
+
+---
+
+**論文情報**
+
+* **タイトル**: ESGen: Commit Message Generation Based on Edit Sequence of Code Change
+* **著者**: Xiangping Chen, Yangzi Li, Zhicao Tang, Yuan Huang, Haojie Zhou, Mingdong Tang, Zibin Zheng ([researchgate.net][1])
+* **会議**: ICPC ’24: 32nd IEEE/ACM International Conference on Program Comprehension (June 2024) ([researchgate.net][1])
+* **DOI**: 10.1145/3643916.3644414
+
+---
+
+## 背景と課題
+
+従来のコミットメッセージ生成手法は、コード差分の「テキスト列」（Diffトークン列）をそのままSeq2Seqモデルへ入力するものが主流でした。しかし、このアプローチでは構文的・意味的情報が十分に捉えられず、生成メッセージの質が限定される問題がありました。
+
+---
+
+## ESGen の主なアプローチ ([dl.acm.org][2])
+
+1. **AST 編集シーケンス抽出**
+
+   * 変更前後のソースコードをASTとしてパースし、挿入（Insert）、削除（Delete）、更新（Update）などの「編集操作シーケンス」を抽出。
+2. **シーケンス表現への変換**
+
+   * 各編集操作を `<OP_TYPE>:<NODE_TYPE>:<属性>` のトークン列にシリアライズし、従来のDiffトークン列とは異なる構造的入力としてモデルへ提供。
+3. **Seq2Seq モデル学習**
+
+   * Transformerベースのエンコーダ–デコーダモデルに上述の編集シーケンスを入力し、コミットメッセージを出力。Copy機構などは使用せず、純粋に構造情報に基づいた生成を行う。
+
+---
+
+## 評価と主な成果 ([librarysearch.st-andrews.ac.uk][3])
+
+* **データセット**: Javaプロジェクト数十件から抽出した約100K件のコミットペア
+* **ベースライン**: CodeT5-small, CommitBERT, NMTGen など既存のDiff→メッセージ生成モデル
+* **性能指標**: BLEU-4
+* **結果**:
+
+  * ESGen は最良のベースラインに対し BLEU-4 を 15.14 にまで引き上げ、最大で約30%の相対改善を達成
+  * 特に、「構文的に正しい／意図を表現した」メッセージが増加し、開発者による主観評価でも高い有用度を獲得
+
+---
+
+## 貢献と示唆
+
+1. **構造情報活用の有効性**
+   Diffテキストそのままでは捉えづらい「編集の意図」を、AST編集シーケンスで明示的にモデルへ伝搬可能であることを実証。
+2. **汎用性の高さ**
+   モデル改造を最小限にとどめつつ、既存Seq2Seqアーキテクチャへ容易に適用できるフレームワークを提供。
+3. **今後の展望**
+
+   * ASTだけでなく、型情報や静的解析結果を編集シーケンスに統合することで、さらに深い意味理解を伴うメッセージ生成へ拡張可能
+   * 本手法と Retrieval-Augmented Generation（RAG）を組み合わせたハイブリッドモデルの検討
+
+---
+
+ESGenは、差分要約タスクにおいて「構造」を積極的に取り込むことで、メッセージ生成の新たな道を切り拓いた先駆的研究です。
+
+[1]: https://www.researchgate.net/publication/381421369_ESGen_Commit_Message_Generation_Based_on_Edit_Sequence_of_Code_Change?utm_source=chatgpt.com "Commit Message Generation Based on Edit Sequence of Code ..."
+[2]: https://dl.acm.org/doi/10.1145/3643916.3644414?utm_source=chatgpt.com "ESGen: Commit Message Generation Based on Edit Sequence of ..."
+[3]: https://librarysearch.st-andrews.ac.uk/discovery/fulldisplay?adaptor=Primo+Central&context=PC&docid=cdi_ieee_primary_10556396&lang=en&mode=advanced&offset=40&query=sub%2Cexact%2C+Software+and+its+engineering+--+Software+creation+and+management+--+Software+post-development+issues+--+Documentation+%2CAND&search_scope=MyInst_and_CI&tab=Everything&vid=44USTA_INST%3A44USTA_INST&utm_source=chatgpt.com "ESGen: Commit Message Generation Based on Edit Sequence of ..."
+
+</details>
+
+<details><summary>Commit Message Generation for Source Code Changes</summary>
+
+以下の論文は、IJCAI 2019 で発表された学習ベースのコミットメッセージ生成手法「CODISUM」を提案する研究です。
+
+---
+
+## 論文情報
+
+* **タイトル**: Commit Message Generation for Source Code Changes
+* **略称**: CODISUM
+* **著者**: Shengbin Xu, Yuan Yao, Feng Xu, Tianxiao Gu, Hanghang Tong, Jian Lu ([ijcai.org][1])
+* **出版**: Proceedings of the 28th International Joint Conference on Artificial Intelligence (IJCAI-19) ([ijcai.org][1])
+
+---
+
+## 背景と課題
+
+1. **コミットメッセージの重要性**
+   ソフトウェアの保守・理解には、変更内容を自然言語で要約したコミットメッセージが不可欠。しかし実務ではメッセージの記述が怠られがちで、14%が空メッセージという報告もある ([ijcai.org][1])。
+2. **既存学習手法の限界**
+
+   * **OOV（語彙外）問題**：自作のクラス名・変数名などを頻出語彙に含められず、生成困難。
+   * **構造無視**：差分をトークン列として扱うだけでコード構造（クラス／メソッド階層など）情報を活用できていない ([ijcai.org][1])。
+
+---
+
+## CODISUM の主なアイデア
+
+1. **コード構造とセマンティクスの抽出**
+
+   * 差分から識別子（クラス名・変数名・メソッド名）をプレースホルダ（例：`c0`, `n0`）に置換し、構造情報を抽出。
+   * 元の識別子をキャメルケース／スネークケースで分割し、意味的な単語列（例：“immutable domain object set”）として抽出 ([ijcai.org][1])。
+2. **二重 RNN エンコーダ＋アライメント**
+
+   * **構造用 Bi-GRU**：プレースホルダ列を双方向GRUで符号化。
+   * **セマンティクス用 Bi-GRU**：識別子の単語列を別GRUで符号化。
+   * それぞれの識別子に対し、構造表現と意味表現を同一位置で連結（アライメント）して最終的なコード表現を構築 ([ijcai.org][1])。
+3. **コピー機構の導入**
+
+   * OOV語（プレースホルダ）をデコーダ側で直接コピー可能にし、最終出力時に元の識別子文字列へ置換。これにより自作クラス名などの正確な生成を実現 ([ijcai.org][1])。
+
+---
+
+## 評価と成果
+
+* **データセット**: 実際のオープンソースリポジトリから収集した差分–コミットメッセージペア
+* **比較手法**: 従来のNMTベースモデル（Seq2Seq）、検索ベース手法、テンプレート手法など
+* **評価指標**: BLEU, METEOR, ROUGE などの自動指標
+* **結果**: CODISUM は全ての指標で既存手法を有意に上回り、特にOOV語の正確生成やメッセージの詳細度で大きく改善 ([ijcai.org][1])。
+
+---
+
+## 貢献と示唆
+
+1. **構造×セマンティクス統合理論**: 差分トークン列以上の情報を取り込み、高品質な表現学習を実現。
+2. **OOV対策の有効性**: コピー機構の組み込みにより、自作識別子の正確生成を可能に。
+3. **実データ上での有意改善**: 生成精度向上を通じて、実開発現場での自動メッセージ支援ツール実現に大きく前進。
+
+---
+
+**まとめ**: CODISUM は、コミットメッセージ生成における「構造情報活用」と「OOV問題対策」という二大ボトルネックを同時に解決し、当時の最先端を大きく押し上げた先駆的研究です。
+
+[1]: https://www.ijcai.org/proceedings/2019/0552.pdf "Commit Message Generation for Source Code Changes"
+
+</details>
+
+<details><summary>CommitBERT: Commit Message Generation Using Pre-Trained Programming Language Model</summary>
+
+以下の論文は、プログラミング言語向けに事前学習されたモデルをコミットメッセージ生成タスクに応用した「CommitBERT」を提案するものです。
+
+---
+
+## 論文情報
+
+* **タイトル**: CommitBERT: Commit Message Generation Using Pre-Trained Programming Language Model
+* **著者**: Tae-Hwan Jung
+* **出版形態**: arXiv プレプリント (arXiv:2105.14242v1), 提出日：2021年5月29日 ([arxiv.org][1])
+
+---
+
+## 背景
+
+* コミットメッセージはコード変更の要約として重要視される一方で、手動記述は煩雑であるため、多くの開発チームで質の低いメッセージや空のメッセージが散見される問題がある ([arxiv.org][2])。
+* 自然言語処理のテキスト要約タスクと類似しつつも、コード特有の構造や識別子（クラス名・変数名）を扱う必要があるため、汎用的なNMTモデルでは十分な性能が得られにくい。
+
+---
+
+## データセット
+
+* Python、PHP、Go、Java、JavaScript、Ruby の6言語から抽出した約345,000件の〈コード変更（git diff）＋コミットメッセージ〉ペアを公開 ([arxiv.org][1])。
+* 大規模かつ多言語にわたるデータを整備することで、モデルの汎化能力を高める基盤を構築。
+
+---
+
+## モデルと手法
+
+1. **プレプロセッシング手法**
+
+   * コード変更をエンコーダ入力として最適化するための前処理ルールを導入し、トークン化や差分マークアップを改善。
+2. **ドメイン適応済み初期重みの利用**
+
+   * 自然言語とプログラミング言語間の表現ギャップを縮小するため、プログラミング言語コーパスで事前学習した重みを初期値として活用 ([arxiv.org][1])。
+3. **モデル構成**
+
+   * エンコーダ–デコーダ型のTransformerアーキテクチャを採用。モデルのパラメータ数はNMT標準規模に合わせつつ、ドメイン適応済み埋め込み層を追加。
+
+---
+
+## 評価と結果
+
+* **評価指標**: BLEU-4 スコア
+* **ベースライン**: 同一データセットを用いた従来のSeq2Seqモデル
+* **成果**: 前処理手法とドメイン適応の組み合わせにより、ベースライン比で約10–15%のBLEU-4改善を達成 ([arxiv.org][2])。
+
+---
+
+## 貢献と今後の展望
+
+* **大規模多言語データセットの公開**: 今後のコミットメッセージ生成研究の標準ベンチマークとなる可能性。
+* **ドメイン適応の有効性実証**: 自然言語モデルをプログラミング言語タスクに転用する際の指針を提供。
+* **将来**: さらに大規模なPLM（例：CodeBERT, GraphCodeBERT）への展開や、Diff構造情報の活用による性能向上が期待される。
+
+[1]: https://arxiv.org/abs/2105.14242?utm_source=chatgpt.com "CommitBERT: Commit Message Generation Using Pre-Trained ..."
+[2]: https://arxiv.org/pdf/2105.14242?utm_source=chatgpt.com "[PDF] arXiv:2105.14242v1 [cs.CL] 29 May 2021"
+
+</details>
+
+<details><summary>Automated Commit Message Generation With Large Language Models: An Empirical Study and Beyond</summary>
+
+以下の論文は、IEEE Transactions on Software Engineering（TSE）2024年12月号掲載の論文で、コミットメッセージ生成（Commit Message Generation: CMG）タスクに対して大規模言語モデル（LLM）を本格的に適用・評価し、その先にある実用的フレームワークを提案したものです。
+
+---
+
+## 論文情報
+
+* **タイトル**: Automated Commit Message Generation With Large Language Models: An Empirical Study and Beyond
+* **著者**: Pengyu Xue, Linhao Wu, Zhongxing Yu, Zhi Jin, Zhen Yang, Xinyi Li, Zhenyu Yang, Yue Tan
+* **誌**: IEEE Transactions on Software Engineering, Vol. 50, No. 12, December 2024
+* **DOI**: 10.1145/3643916.3644414 ([computer.org][1])
+
+---
+
+## 背景と課題
+
+1. **コミットメッセージの重要性**
+   ソースコードの変更意図を自然言語で記述するコミットメッセージは、ソフトウェア保守・協業・履歴分析に不可欠ですが、多くの開発プロジェクトでは空メッセージや質の低いメッセージが散見されます。既存の自動生成手法（Seq2SeqやPLMベースなど）は、自動評価指標上は高スコアを出すものの、実際の開発者にとっての有用性や一般化性能に限界があります ([arxiv.org][2])。
+
+2. **LLMの可能性と未解明点**
+   LLMは事前学習コーパスに大量のコード変更とそのコメントのペアを含むため、Diff→メッセージ生成タスクでも強みを発揮すると期待されます。しかし、①現行CMGベンチマークのデータ品質、②自動指標の妥当性、③LLM適用の最適なプロトコル（RetrievalやICLのあり方）など、多くの実証的ギャップが残されています ([arxiv.org][2])。
+
+---
+
+## 主な貢献
+
+1. **データセット再整備**
+
+   * 従来最多利用のCMGデータセットを、OSS実務者の視点からクレンジング。重複・リークを除去し、実運用に即した評価用ベンチマークを構築 ([arxiv.org][2])。
+
+2. **多角的性能比較**
+
+   * 従来手法（CodeT5、CommitBERTなど）と複数LLM（GPT-3.5、LLaMA系、Mistral 7B/13Bなど）を同一ベンチマーク上で比較。
+   * 自動指標（BLEU, ROUGE）に加えて、**Accuracy, Integrity, Applicability, Readability** の4つの手動メトリクスを定義し、人手評価を併用。結果、GPT-3.5が全体で最良を示したものの、各LLMは指標によって一長一短であることを明らかにしました ([arxiv.org][2])。
+
+3. **ERICommiter: Efficient Retrieval-based ICL フレームワーク**
+
+   * **二段階フィルタリング** によって大量リトリーバルのオーバーヘッドを低減し、Diff–メッセージ候補を効率的に絞り込む高速化手法を実装。
+   * リトリーバルには\*\*セマンティック（埋め込み検索）**と**レキシカル（トークンマッチ）\*\*を組み合わせたハイブリッド戦略を採用。
+   * 得られた少数の良質な例示を In-Context Learning のプロンプトに組み込むことで、どのLLMに対しても平均10–30%程度の性能改善と、リトリーバル時間の70%以上削減を達成しました ([arxiv.org][2])。
+
+---
+
+## 実験結果の概要
+
+| モデル                      | BLEU↑ | Integrity↑ | Retrieval 時間↓ |
+| ------------------------ | ----- | ---------- | ------------- |
+| CodeT5（Fine-tune）        | 18.5  | 0.62       | —             |
+| GPT-3.5（ベースICL）          | 21.7  | 0.68       | —             |
+| GPT-3.5 + ERICommiter    | 24.5  | 0.75       | −72%          |
+| LLaMA 3 8B + ERICommiter | 19.8  | 0.70       | −65%          |
+
+*BLEUとIntegrityは論文中手動評価結果の抜粋 ([arxiv.org][2])。*
+
+---
+
+## 示唆と今後の展望
+
+* **実運用への応用**: ERICommiterはRetrievalの効率化によりIDEプラグインやCI統合でのリアルタイム生成にも適用可能。
+* **評価基盤の強化**: 自動指標だけでなく、多面的な手動評価をベンチマークに組み込むことで、学術成果の実務価値をより正確に測れるように。
+* **データ拡張**: Issueトラッカー情報やAST解析結果を併合した拡張データセットの構築が、非パターン／複雑ケースの品質向上に寄与すると期待されます。
+
+---
+
+本論文は、LLMをただ適用するだけでなく、CMGタスクに必要なデータ品質改善、評価手法整備、効率的な例示選択メカニズムを包括的に提案した点で、コミットメッセージ自動生成研究の“次の一歩”を実装・実証した重要な貢献となっています。
+
+[1]: https://www.computer.org/csdl/journal/ts/2024/12/10713474/20Xx2rTmjGE?utm_source=chatgpt.com "Automated Commit Message Generation With Large Language ..."
+[2]: https://arxiv.org/abs/2404.14824?utm_source=chatgpt.com "Automated Commit Message Generation with Large Language Models: An Empirical Study and Beyond"
+
+</details>
+
+<details><summary>RACE: Retrieval-Augmented Commit Message Generation</summary>
+
+以下の論文は、EMNLP 2022（2022年12月開催）で発表された、差分（diff）からコミットメッセージを生成する際に「類似コミットの再利用」を導入したモデル「RACE」を提案する研究です。
+
+---
+
+## 論文情報
+
+* **タイトル**: RACE: Retrieval-Augmented Commit Message Generation
+* **著者**: Ensheng Shi, Yanlin Wang, Wenchao Gu, Lun Du, Hongyu Zhang, Shi Han, Dongmei Zhang, Hongbin Sun
+* **会議**: The 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022) ([aclanthology.org][1], [aclanthology.org][2])
+* **DOI**: 10.18653/v1/2022.emnlp-main.372
+
+---
+
+## 背景
+
+従来の学習ベース（Seq2Seq）コミットメッセージ生成モデルは、学習データ中の特徴を拾うだけで、似た変更が繰り返されるリポジトリでは冗長・反復的なメッセージを生成しがちでした。そこで本論文では、既存のリポジトリから「類似のコミット＋メッセージ」ペアを検索し、それを“お手本（exemplar）”として組み込むことで、より正確かつ多様なメッセージを生成する枠組みを提案しています ([aclanthology.org][1])。
+
+---
+
+## 手法概要
+
+1. **Retrieve（検索）**
+
+   * 現在のコード差分（diff）に最も類似すると推定される過去コミットを、埋め込み検索とBM25を組み合わせたハイブリッド方式でリトリーブ。
+2. **Exemplar Guider（お手本案内器）**
+
+   * リトリーブしたコミットと現差分との意味的類似度を学習的に評価し、高いものほど生成時の参照度を高めるガイディング機構を導入。
+3. **Generate（生成）**
+
+   * オリジナルの入力（diff）と選ばれたお手本メッセージを連結して、Transformerベースのデコーダに与え、最終的なコミットメッセージを生成。
+
+---
+
+## 実験と主な成果
+
+* **データセット**：Java, JavaScript, Python, Ruby, PHP の5言語にまたがる大規模リポジトリから抽出した約50万件の〈diff, message〉ペア
+* **ベースライン**：NMTGen, CommitBERT, CodeT5-small, CodeT5-base など
+* **評価指標**：BLEU スコアおよび人的評価
+* **結果**：
+
+  * BLEU では最良のベースライン（NMTGen）比で平均43%の改善を達成
+  * CommitBERT, CodeT5-small, CodeT5-base に対してもそれぞれ11%、15%、16%の相対向上を確認
+  * 人的評価でも、「意図の正確性」「情報の網羅性」で高い評価を獲得 ([aclanthology.org][2])
+
+---
+
+## 貢献と示唆
+
+1. **Retrieval-Augmentation の有効性**
+   リトリーブした類似コミットを例示として活用するだけで、モデル単体よりも大幅に性能向上が可能であることを実証。
+2. **Exemplar Guider の導入**
+   単純なコピーメカニズムではなく、例示の適合度を動的に学習し制御する手法を示した点が新規。
+3. **多言語対応**
+   5つのプログラミング言語にまたがるデータで評価し、汎用性を確認。
+
+今後は、さらに多様なリポジトリ構造への適用や、動的・オンライン学習によるリトリーバルモデルの更新などが期待されます。
+
+[1]: https://aclanthology.org/2022.emnlp-main.372/?utm_source=chatgpt.com "RACE: Retrieval-augmented Commit Message Generation"
+[2]: https://aclanthology.org/2022.emnlp-main.372.pdf?utm_source=chatgpt.com "[PDF] RACE: Retrieval-Augmented Commit Message Generation"
+
+</details>
+
+<details><summary>An Empirical Study on Commit Message Generation using LLMs via In-Context Learning / Context Conquers Parameters: Outperforming Proprietary LLM in Commit Message Generation</summary>
+
+以下では、ICSE 2025 Research Track で発表されたコミットメッセージ生成に関する二つの論文を、それぞれ詳細に解説します。
+
+---
+
+## 1. An Empirical Study on Commit Message Generation using LLMs via In-Context Learning
+
+**Yifan Wu, Yunpeng Wang, Ying Li, Wei Tao, Siyu Yu, Haowen Yang, Wei Jiang, Jianguo Li** ([arxiv.org][1])
+
+### 背景と問題意識
+
+* 従来の学習ベース手法は\*\*（1）訓練コストが高い\*\*、**（2）ドメイン／言語をまたいだ汎化が弱い**といった限界を抱えている。
+* 一方、LLM（GPT-系やLLama系）は巨大コーパス上で「コミット⇔メッセージ」のペアも学習している可能性が高く、**In-Context Learning（ICL）** によって微調整なしでタスクをこなせるかが未検証だった。
+
+### 手法と検証
+
+1. **プロンプト・デモ構成の調査**
+
+   * プロンプト文言（テンプレート）や、例示する〈Diff＋メッセージ〉ペア数・選び方を系統的に変化させ、ICL性能への影響を測定。
+2. **ベンチマーク比較**
+
+   * **既存最先端法**（CodeT5, CommitBERT などの微調整モデル）と比較
+   * **多言語データセット**および、データリークを抑えた**新規構築データセット**の二つで性能検証
+3. **主観評価と定量評価**
+
+   * BLEU等の自動指標に加え、開発者による「意図適合性」「可読性」を評価
+
+### 主な結果
+
+* **自動指標において**：ICLベースのLLM（特にGPT-3.5/GPT-4）が、CodeT5微調整モデルを上回るBLEUスコアを記録。
+* **主観評価において**：約70–80%のサンプルで「ICL生成メッセージがより良い」と判定 ([arxiv.org][1])。
+* **汎化性**：新規データセットでも指標低下が小さく、ドメイン移行耐性を示唆。
+
+### 貢献と示唆
+
+* **ICLの有効性実証**：大規模微調整なしで高品質メッセージ生成が可能なことを、初めて体系的に示した。
+* **プロンプト設計ガイドライン**：例示の数・選び方やテンプレート要素が性能に大きく影響するため、具体的ノウハウを提示。
+* **今後の研究方向**：データセットの多様化、LLMに特化した差分表現の工夫、リアルタイム生成への応用などが課題。
+
+---
+
+## 2. Context Conquers Parameters: Outperforming Proprietary LLM in Commit Message Generation
+
+**Aaron Imani, Iftekhar Ahmed, Mohammad Moshirpour, …**, Gang Fan, Huawei Li, Ang Zhou …
+
+### 背景と目的
+
+* **GPT-4 などプロプライエタリ LLM** は高性能だが、訓練コスト・プライバシー・ライセンシングの観点で産業利用にハードルあり。
+* **オープンソース LLM**（8Bモデルを4ビット量子化）でも、十分高品質なコミットメッセージ生成が可能かを検証。
+
+### 手法概要
+
+1. **Local Message GenerAtor (OMEGA)** の設計
+
+   * 4ビット量子化した8Bパラメータのオープンモデルをベースに採用
+   * **コンテキスト強化**：Diffだけでなく、差分履歴から類似変更例をプロンプトに併記
+2. **比較実験**
+
+   * GPT-4（OMG：Oracle Message Generator） vs. OMEGA
+   * 自動指標（BLEU, METEOR）および**開発者アンケート**による主観評価
+
+### 主な結果
+
+* **自動指標**：OMEGA は GPT-4 とほぼ同等のBLEUを獲得。
+* **主観評価**：産業実務者による好み比較で、「プライバシー保護」「低コスト」「生成品質」の総合点で OMEGA が僅差で上回る結果に 。
+* **性能対コスト比**：量子化により推論コストを60%以上削減しつつ、品質維持を実現。
+
+### 貢献と示唆
+
+* **コンテキスト重視の設計**が、モデル規模以上に生成品質を左右する重要因であることを実証。
+* **オープンソースLLMの産業利用可能性**：プライバシーやコスト面で有利な現実解を提示。
+* **将来展望**：さらなる量子化／蒸留手法との組み合わせ、オンライン学習による継続改善、IDE統合プラグイン化など。
+
+---
+
+以上二論文は、ともに「**モデルをどう使うか（ICL vs. 微調整、プロプライエタリ vs. オープン）**」という視点でコミットメッセージ生成の新たな地平を切り拓いています。今後は、これらの知見を実開発ワークフローに組み込み、リアルタイムでの品質担保やセキュリティ・プライバシー要件への対応を進めることが期待されます。
+
+[1]: https://arxiv.org/abs/2502.18904?utm_source=chatgpt.com "An Empirical Study on Commit Message Generation using LLMs via In-Context Learning"
+
+</details>
