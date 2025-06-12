@@ -2494,3 +2494,541 @@ ESGenは、差分要約タスクにおいて「構造」を積極的に取り込
 [1]: https://arxiv.org/abs/2502.18904?utm_source=chatgpt.com "An Empirical Study on Commit Message Generation using LLMs via In-Context Learning"
 
 </details>
+
+<details><summary>Nebula: A Discourse-Aware Minecraft Builder</summary>
+
+
+[参考](https://aclanthology.org/2024.findings-emnlp.374.pdf)
+---
+
+## 1. 研究背景と目的
+
+Minecraft上での共同建築タスクでは、Architect（設計者）とBuilder（構築者）が会話を介して複雑な指示をやり取りしながら、3Dブロックを組み上げます。これまでの「言語→アクション」モデルは、各指示を独立に処理し、会話の談話構造や非言語的文脈（ワールドステートや過去のアクション履歴）を十分に活用できていませんでした。本研究では、こうした文脈情報を取り込み、指示に応じたブロック操作（pick/place）のシーケンスを予測するLLM「Nebula」を提案し、従来のNeural Builder（F1=0.20）からほぼ2倍の性能向上を達成することを示します .
+
+## 2. 使用データセット
+
+* **Minecraft Dialogue Corpus (MDC)**: 410本の訓練対話、137本のテスト対話を含む，Architect–Builder間の自然対話コーパス。会話発話（EDU）と行動ユニット（EEU）に分かれ，合計約54Kのイベントを記録 .
+* **Minecraft Structured Dialogue Corpus (MSDC)**: MDCにSDRTベースの談話関係（Elaboration, Correction, Narrationなど）を付与した拡張版。対話発話と非言語的アクション間の関係インスタンスを約34K含む .
+
+## 3. 既存手法：Neural Builder
+
+Jayannavar et al. (2020) のNeural Builderは、GRU＋CNNの組み合わせで直前の指示〈inᵢ, aᵢ, inᵢ₊₁〉とワールドステートを入力に、次のアクション列を予測します。しかし，net-action F1はテストセットで0.20にとどまり，連続する対話中の曖昧指示や同時進行の質疑応答をうまく扱えませんでした .
+
+## 4. 提案モデル：Nebula
+
+* **ベースモデル**: Llama-3-8B をQLoRAで3エポック微調整
+* **入力**: “これまでの全対話発話＋全過去アクション” をそのままプロンプトに含める
+* **出力**: Builderの次のpick/placeアクション列
+* **性能**: 検証 F1=0.398, テスト F1=0.392 と，Neural Builderの0.20からほぼ倍増 .
+
+## 5. 談話構造の活用（Nebula+N）
+
+MSDCの“ナラティブアーク”（Narration関係で結ばれた発話–アクションのまとまり）を前後文脈として学習させたモデルNebula+Nは，ベースラインと同等の性能を発揮（検証 F1=0.363, テスト F1=0.380） .
+さらに、ナラティブアーク長が短い場合と比較すると、アーク全体を使う方が正確性が高く、必要かつ十分な情報が含まれることを示しました（Nebula+N/N vs. Nebula+N/in aₙin₊₁） .
+
+## 6. MDCの評価指標の問題点
+
+* 人間は「隅に置いて」など曖昧な位置表現を用いるが，net-action F1は絶対座標と色の完全一致のみを正解とするため，実際の正解アクションが複数ある状況を正当に評価できません .
+* また，Builderからの質問によって金データのアクション列が途切れるケースがあり，学習すべきシーケンス長との不整合も生じます .
+
+## 7. 合成データによる詳細評価
+
+### Level-1（Basic Shapes & Locations）
+
+* **対象**: タワー、行、対角線、四角形、長方形、ダイヤモンド、立方体
+* **方法**: 形状の正誤判定関数（is\_tower, is\_squareなど）と，正形状に対するサイズ／位置／向き（horizontal/vertical）を評価
+* **結果**: Nebula単体で形状Accuracy約73%、サイズ約83%、位置Accuracy約38%に対し，合成データ一部でさらに微調整すると形状87%、サイズ90%、位置46%まで改善 .
+
+### Level-2（Anaphoric Locations）
+
+* **対象**: “on top of”, “to the side of”, “touching”, “not touching” などの指示
+* **結果**: Nebula単体で全体Accuracy約80%，“not touching”は特に低い7.5%でしたが，微調整後は約90%（“not touching”は97.8%）に飛躍的向上 .
+
+## 8. 結論と今後の展望
+
+* Nebulaは「全対話＋全アクション」を文脈に取るだけでnet-action F1を2倍に改善し，さらに談話構造で同等性能を達成しました。
+* 合成データによる評価と微調整により、形状理解や曖昧位置指示への対応力を高められることを実証。
+* 今後は、相対位置指示の一般化メトリクス開発や，より多様な談話情報の活用，実際の対話ロボットへの応用などを検討予定です .
+
+---
+
+</details>
+
+<details><summary>Retrieval-Augmented Code Generation for Situated Action Generation: A Case Study on Minecraft</summary>
+
+[参考](https://aclanthology.org/2024.findings-emnlp.652.pdf)  
+
+---
+
+**Abstract（要旨）**
+Minecraft上での共同建築タスクでは、Architect（A）がBuilder（B）に指示を出し、3Dブロックで構造物を組み立てます。本研究では、Builderの一連のアクション予測を大規模言語モデル（LLM）に学習させる手法を検討しました。Few-shot プロンプト技術と、タスクに類似した事例を動的に検索して in-context 例として与える「Retrieval-Augmented」アプローチを組み合わせることで、従来手法を大幅に上回る性能を達成しています。さらに、空間前置詞や幾何形状指示など、現状の性能ギャップ要因を詳細に分析しています ([aclanthology.org][1]).
+
+---
+
+## 1. 背景と問題設定
+
+1. **タスク概要**
+
+   * Architect (A) と Builder (B) が対話を通じて共同で建築を行う。
+   * 対話＋ワールドステート（現在のブロック配置）から、Builder側の pick()/place() コード列を予測。
+2. **先行研究の限界**
+
+   * エンドツーエンドのニューラルモデル（Jayannavar et al., 2020 など）は対話履歴を活用するものの、精度は低く（net-action F1≈0.20） .
+   * LLM の in-context learning を活かした few-shot コード生成は、構造化されたアクション予測タスクに適している可能性がある。
+
+---
+
+## 2. データセットとタスク定義
+
+* **Minecraft Dialogue Corpus** (Narayan-Chen et al., 2019):
+
+  * 547 対話ゲーム、合計約3,792 の訓練ペア、1,335 の開発ペア、1,615 のテストペアを収録 .
+* **アクション変換**
+
+  * Builder の「置く／拾う」発話をそれぞれ `place(color,x,y,z)`／`pick(color,x,y,z)` の擬似コードに変換。
+  * 各対話ターン前のすべての発話と動作をまとめて「INSTRUCTION」とし、対応するコード列をモデルに予測させる .
+
+---
+
+## 3. 提案手法
+
+1. **Few-Shot Prompting**
+
+   * プロンプトにシステム情報（役割定義）、環境情報（11×9×11 グリッド、利用可能ブロック数）、タスク情報（出力形式）を含める .
+2. **Retrieval-Augmented In-Context Examples**
+
+   * 事前訓練済み Sentence-Transformer（all-MiniLM-L6-v2）で現在の指示と類似度計算し、上位 k (＝3) 件を動的に in-context として挿入 .
+3. **モデル選択と微調整**
+
+   * GPT-4-o, Llama-3-8B, Llama-3-70B を few-shot で評価。
+   * 加えて Llama-3-8B を QLoRA による微調整（15 エポック、学習率0.0002, Adam, バッチ32）し、さらなる性能向上を検証 .
+
+---
+
+## 4. 実験設定
+
+* **評価指標**: 対話ターンごとに生成された pick/place コマンド列の網羅的 F1 スコア（net-action F1）。
+* **ベースライン**: Builder Action Prediction (BAP) モデル (Jayannavar et al., 2020)。
+* **モデル**: few-shot GPT-4-o, Llama-3-70B, Llama-3-8B（事前訓練版／微調整版）。
+* **ハイパーパラメータ**: 生成温度 0、最大トークン数 500。
+
+---
+
+## 5. 結果と分析
+
+| モデル                       | テスト F1   |
+| ------------------------- | -------- |
+| BAP（Neural Builder, 2020） | 0.20     |
+| GPT-4-o                   | **0.39** |
+| Llama-3-70B               | 0.33     |
+| Llama-3-8B（事前訓練）          | 0.30     |
+| Llama-3-8B（QLoRA 微調整）     | 0.36     |
+
+> ※微調整により約6%の改善を確認 .
+
+### 5.1 空間前置詞の誤り
+
+* テストセットの75.4%のターンに空間前置詞を含むが、GPT-4-oはそのうち26.0%のみ正解。Llama-3-70Bは22.7%、Llama-3-8Bは9.4%と低迷 .
+
+### 5.2 幾何形状・オブジェクト表現の誤り
+
+* “circle”や“chair”など148種の形状指示を抽出。これらを含む発話は29.9%だが、多くは誤生成が散見された。
+
+### 5.3 指示の不完全性（Underspecification）
+
+* “start with a column of 5 purple bricks” のように位置や方向が曖昧な指示は、複数解釈が可能なため評価が困難。
+
+---
+
+## 6. 結論と今後の展望
+
+* **Retrieval-Augmented Few-Shot** による LLM コード生成は、従来のニューラルモデルを大きく上回る性能を示した。
+* しかし、空間関係・形状記述・指示の不完全性への対応にはさらなる工夫が必要。
+* 今後は、論理制約の組み込みやマルチモーダル情報（視覚＋対話）の統合、強化学習的微調整などで性能向上を目指すことが期待されます。
+
+---
+
+[1]: https://aclanthology.org/2024.findings-emnlp.652/ "Retrieval-Augmented Code Generation for Situated Action Generation: A Case Study on Minecraft - ACL Anthology"
+
+</details>
+
+<details><summary>LLaMA-Rider: Spurring Large Language Models to Explore the Open World</summary>
+
+[参考](https://aclanthology.org/2024.findings-naacl.292.pdf)  
+
+---
+
+## 1. 背景と問題設定
+
+大規模言語モデル（LLM）は、自然言語からコード生成や計画立案に用いられる一方で、事前学習時のコーパス知識に依存しており、実際の環境と知識が乖離している場合があります。また、従来の手法は環境からのフィードバックをモデル自身が取り込んで知識を更新する仕組みを持たず、特に複雑なオープンワールド（例：Minecraft）ではタスク遂行能力の継続的向上が難しいという課題があります .
+
+---
+
+## 2. 提案手法：LLaMA-Rider
+
+本研究では、LLMに「自己探索」と「獲得経験からの学習」を促す二段階学習フレームワークを提案します（Figure 2）。
+
+1. **探索ステージ**
+
+   * **多段階フィードバック・改訂機構**：モデルが環境からの失敗／成功情報を受け取り、自身の行動計画を逐次修正しながら探索を進める 。
+   * **サブタスク再ラベリング**：探索中に得られた部分成功の経路もサブタスク単位で再ラベリングし、経験データの品質と多様性を向上させる 。
+
+2. **学習ステージ**
+
+   * 探索ステージで収集した約1.3 kのスキル実行ステップを、\*\*教師あり微調整（Supervised Fine-Tuning; SFT）\*\*用データセットとして整形・学習。
+   * 部分的に達成したサブタスクも含めることで、合成的タスク構成能力（compositionality）をモデルに学習させる 。
+
+---
+
+## 3. 実装と実験設定
+
+* **環境**: MineDojo プラットフォーム上の Minecraft シミュレータ 。
+* **行動空間**: Plan4MC（Yuan et al., 2023）で事前学習された「スキル」（採取・加工・構築など）を使用し、原始的アクションよりも意味的に豊かなスキル記述を LLM 入力とする 。
+* **タスク**: MineDojo 内で定義された40種類の複雑タスク（例：作業台の作成、木のツールのクラフト）を対象。
+* **評価指標**:
+
+  * **探索効率**：探索ステージで成功経験を獲得するまでの試行数
+  * **タスク達成率**：学習ステージ後にモデルが完遂できるタスクの数
+  * **サンプル効率**：RLベース手法（GLAM など）と比較した微調整データ量あたりの性能向上
+
+---
+
+## 4. 実験結果と考察
+
+1. **探索ステージの有効性**
+
+   * フィードバック・改訂機構を導入した LLaMA-Rider は、ランダム探索や従来の検索モデルに比べて成功体験を得るまでの平均試行回数を大幅に削減 。
+2. **学習ステージ後のタスク達成率**
+
+   * 約1.3 kステップの微調整データで、従来の RL 手法に匹敵または上回るタスク達成性能を達成（例えば、Crafter や HomeGrid 環境でも同等以上の効率を実証） 。
+3. **汎化能力**
+
+   * 未知の難タスクに対しても、獲得経験をもとに SLA（Skills Learned Abstractions）を再組み合わせることで、従来法より高い一般化性能を示した 。
+
+---
+
+## 5. 結論と今後の展望
+
+LLaMA-Rider は、LLM 自身の探索能力を引き出し、環境フィードバックを利用した改訂とサブタスク再ラベリングにより、オープンワールドにおけるタスク遂行能力を大幅に向上させることを示しました。今後は、より大規模なデータ収集、自動化されたフィードバック生成、多モーダル情報（視覚・音声・テキスト）の統合などを通じて、さらに実用的なエージェントへの発展が期待されます 。
+
+</details>
+
+<details><summary>VillagerAgent: A Graph-Based Multi-Agent Framework for Coordinating Complex Task Dependencies in Minecraft</summary>
+
+[参考](https://aclanthology.org/2024.findings-acl.964.pdf)  
+
+
+---
+
+## 要旨
+
+本研究では、Minecraft上で複数エージェントが空間的・因果的・時間的制約を伴う複雑なタスク依存性を解決しつつ共同作業を行うための枠組みを提案します。まず、新ベンチマーク **VillagerBench** を構築し、建築・料理・脱出ルームといった多様なシナリオでマルチエージェント協調能力を評価します。次に、タスクを有向非巡回グラフ（DAG）としてモデル化し、**Task Decomposer**, **Agent Controller**, **State Manager**, **Base Agents** の4モジュールから成る **VillagerAgent** フレームワークを提示。VillagerBench上の実験において、既存の AgentVerse を上回る性能（誤生成の削減とタスク分解の有効性向上）を示しました。ソースコードはGitHubで公開中です .
+
+---
+
+## 1. VillagerBench の設計
+
+* **目的**: マルチエージェントが直面する「並列／逐次実行」「役割分担」「動的環境適応」を一元的に評価
+* **タスク例**:
+
+  1. **Construction Cooperation**：建築設計図に従いブロックを配置（空間依存性評価）
+  2. **Farm-to-Table Cooking**：材料集めから調理まで（因果依存性評価）
+  3. **Escape Room Challenge**：スイッチ操作など同時実行＋逐次実行（時間依存性評価）
+* **評価指標**:
+
+  * Completion (C)：タスク完了率
+  * Efficiency (E)：実行速度と資源利用
+  * Balance (B)：エージェント間の負荷分散&#x20;
+
+---
+
+## 2. VillagerAgent フレームワーク
+
+1. **Task Decomposer**
+
+   * 目標タスク記述と現在の環境・エージェント状態から、サブタスクをノードとし有向辺で依存関係を表すDAGを生成
+   * JSON形式のChain-of-ThoughtプロンプトでLLMを誘導し、逐次更新&#x20;
+2. **Agent Controller**
+
+   * DAG中の依存解消済みノードを抽出し（N\_ready）、エージェント状態と環境情報に基づき最適なマッピングをLLMに問い合わせ
+   * 各エージェントにサブタスク割当を実行・同期&#x20;
+3. **State Manager**
+
+   * 各エージェントの短期記憶（行動履歴）と長期記憶（状態要約）をLLMプロンプトで更新
+   * グローバル環境状態を統合し、DAG生成や割当の入力として提供&#x20;
+4. **Base Agents**
+
+   * 実際のAPI呼び出しを通じてブロック操作やアイテム使用を行い、その結果をState Managerに返送
+
+(Figure 2参照)&#x20;
+
+---
+
+## 3. 実験と結果
+
+* **比較対象**: AgentVerse (Chen et al., 2023)
+* **成果**:
+
+  * **誤生成（Hallucination）の大幅削減**
+  * **タスク分解の正確性向上**
+  * 総合スコア（C, E, B）のすべてでAgentVerseを上回る&#x20;
+
+---
+
+## 4. 結論と今後の課題
+
+VillagerAgentは、DAGベースの動的タスク管理とLLMを組み合わせることで、複雑依存を伴うマルチエージェント協調をスケーラブルに実現しました。今後は、より大規模なエージェント数や多様なドメインへの適用、リアルタイム学習による適応能力強化などが期待されます。
+
+</details>
+
+<details><summary>Discourse Structure for the Minecraft Corpus</summary>
+
+[参考](https://aclanthology.org/2024.lrec-main.444.pdf)  
+
+
+---
+
+## 要旨（Abstract）の日本語訳 ([aclanthology.org][1])
+
+Minecraft Dialogue Corpus（MDC）を、SDRT 構造（Asher & Lascarides, 2003）に基づいて**談話注釈**を付加したコーパス「Minecraft Structured Dialogue Corpus (MSDC)」を新たに公開。言語的発話ユニット（EDU）だけでなく、ビルダーの非言語的アクションユニット（EEU）にも対応した完全な談話構造を提供します。また、MSDC を用いて**2パス構文解析器**を学習し、特に長距離付属（long-distance attachment）予測と関係ラベル付けで高い性能を達成したことを示しました。
+
+---
+
+## 1. コーパス構築と注釈手法 ([aclanthology.org][2])
+
+* **元コーパス (MDC)**: 547 対話（Architect–Builder 間）を含み、各発話とブロック操作ログが記録された対話型建築タスクコーパス。
+* **注釈単位**:
+
+  * **EDU (Elementary Discourse Unit)**: 会話の最小意味単位（節やクローズ）。
+  * **EEU (Elementary Event Unit)**: Builder の pick/place アクション系列をまとめた単位（図 1 のように連続操作を“squish”して一つに合成）。
+* **談話関係**: SDRT の基本関係に加え、Builder の確認質問に対応する “Confirmation Question” を独自に追加。
+* **CDU (Complex Discourse Unit)**: 連続する EEUs を一つの大きな単位としてまとめ、重要な談話関係を強調。
+* **注釈プロセス**: 3 名の言語学者＋2 名の NLP 専門家が GLOZZ ツール上で二重検証付きアノテーションを実施 ([aclanthology.org][2])。
+
+---
+
+## 2. コーパス統計（Table 1 より） ([aclanthology.org][2])
+
+|       項目       | MDC (Train+Val) | MDC (Test) | MSDC (Train+Val) | MSDC (Test) |
+| :------------: | :-------------: | :--------: | :--------------: | :---------: |
+|       対話数      |       410       |     137    |        407       |     134     |
+|      EDU数      |      17,135     |    5,417   |         —        |      —      |
+|      EEU数      |      25,555     |    7,263   |         —        |      —      |
+| EEU（squished）数 |      4,687      |    1,475   |         —        |      —      |
+|   談話関係インスタンス数  |      26,299     |    8,275   |         —        |      —      |
+|  マルチペアレント DUs  |      4,798      |    1,482   |         —        |      —      |
+|    発話ターン数平均    |       31.6      |    29.5    |         —        |      —      |
+|  DU（EDU+EEU）平均 |       53.6      |    51.4    |         —        |      —      |
+
+* MSDC では、元の MDC のほぼすべての対話（541/547）に詳細な談話構造を付与 ([aclanthology.org][2])。
+
+---
+
+## 3. 2パス構文解析器の設計 ([aclanthology.org][1])
+
+1. **第1パス**: 談話単位（EDU/EEU）の付属先（attachment）を高速に予測。
+2. **第2パス**: 予測された構造を踏まえ、関係ラベル（Elaboration, Correction, Narration など）を精緻化。
+
+* この“2 pass architecture”により、特に長距離依存の付加関係予測で高い精度を実現。
+* 学習には MSDC 全体を用い、付属予測と関係付与タスクを同時に最適化。
+
+---
+
+## 4. 実験と評価結果 ([aclanthology.org][1])
+
+* **評価タスク**:
+
+  * **Attachment Prediction**: 各 EDU/EEU がどの先行ユニットに付属するかの識別
+  * **Relation Labeling**: 付属ペアに対する談話関係の分類
+* **主な成果**:
+
+  * 長距離（数十ユニット離れた）付属関係の検出率が大幅向上
+  * 全体として、既存の一段構造解析器を凌駕する F1 スコアを獲得
+* 詳細な数値は本文セクション 5 にて報告されています。
+
+---
+
+## 5. 結論と今後の展望
+
+* **貢献1**: MDC に対する初の完全な SDRT ベースの談話構造注釈コーパス（MSDC）を公開。
+* **貢献2**: MSDC を用いた 2 パス構文解析器を提案し、特に長距離依存性の正確な解析を実証。
+* **今後**:
+
+  * MSDC を用いた対話型エージェントの性能向上研究
+  * 相対位置指示や合成データによるさらなる評価指標整備
+  * 他ドメインへの跨領域的談話解析手法の適用
+
+---
+
+[1]: https://aclanthology.org/2024.lrec-main.444/ "Discourse Structure for the Minecraft Corpus - ACL Anthology"
+[2]: https://aclanthology.org/2024.lrec-main.444.pdf "Discourse Structure for the Minecraft Corpus"
+
+</details>
+
+<details><summary>Nebula: A Discourse-Aware Minecraft Builder</summary>
+
+[参考](https://aclanthology.org/2024.findings-emnlp.374.pdf)  
+
+---
+
+## 1. 研究背景と目的
+
+* **共同作業の文脈依存性**
+  人間は共同建築タスクにおいて、会話の先行発話やこれまでの行動履歴といった談話・非言語的文脈を巧みに活用して指示を理解・調整する。しかし、従来の「言語→アクション」モデルはこの文脈情報を十分に取り込めておらず、net-action F1 0.20程度にとどまっていた .
+* **提案手法の狙い**
+  本研究では、会話履歴（discourse）と非言語的ワールドステートをすべてプロンプトに含めた上で大規模言語モデル（LLM）を微調整し、精度を大幅に改善する「Nebula」を提案する .
+
+## 2. データセット
+
+* **Minecraft Dialogue Corpus (MDC)**
+  Architect–Builder 間の自然対話を記録したコーパス。410件の訓練対話＋137件のテスト対話、合計約54Kの発話・アクションイベントを含む .
+* **Minecraft Structured Dialogue Corpus (MSDC)**
+  MDC に SDRT ベースの談話関係（Elaboration, Correction, Narration など）を付与した拡張版。語発話ユニット（EDU）と行動ユニット（EEU）の間約34K件の関係インスタンスを注釈 .
+
+|                             | MDC (Train+Val) | MDC (Test) |
+| --------------------------- | --------------- | ---------- |
+| #Dialogues                  | 410             | 137        |
+| #EDU                        | 17,135          | 5,417      |
+| #EEU                        | 25,555          | 7,263      |
+| #Relation                   | 26,279          | 8,250      |
+| *Table 1: MDC と MSDC の統計* . |                 |            |
+
+## 3. 既存手法：Neural Builder
+
+Jayannavar et al. (2020) の Neural Builder は、直前の〈発話–行動–発話〉シーケンスとワールドステートを GRU＋CNN で処理し、次のアクション列を予測するモデル。net-action F1 はテストで 0.20 にとどまる .
+
+> **図 1**: Neural Builder の入出力構造 .
+
+## 4. 提案モデル：Nebula
+
+* **基本モデル**：Llama-3-8B を QLoRA（3 エポック）で MDC に微調整
+* **入力**：過去すべての会話発話＋すべての過去アクションをコンテキストとしてプロンプトに含める
+* **出力**：次の pick()/place() シーケンス
+* **性能**: 検証 F1=0.398、テスト F1=0.392 と、Neural Builder の 0.20 をほぼ2倍に改善 .
+
+| Model                            | Validation F1 | Test F1   |
+| -------------------------------- | ------------- | --------- |
+| Neural Builder                   | –             | 0.20      |
+| Llama-2-7B                       | 0.292         | 0.326     |
+| Llama-2-13B                      | 0.323         | 0.338     |
+| **Nebula (3-8B)**                | **0.398**     | **0.392** |
+| *Table 2: 各モデルの net-action F1* . |               |           |
+
+## 5. 談話構造の活用
+
+MSDC の “ナラティブアーク”（Narration 関係で結ばれる発話–アクションのまとまり）を用いた学習（Nebula+N）は、全履歴入力と同等の性能を確保（検証 F1=0.363, テスト F1=0.380）。これは、必要かつ十分な文脈情報を抽出できていることを示す .
+
+## 6. 問題点と合成データによる評価改善
+
+* **曖昧指示・不完全指定**： “塔を隅に作って” のように複数解がある指示は、厳密一致ベースの net-action F1 が真の性能を正当に評価できない .
+* **合成データセット**：基本形状（タワー、四角形など）＆位置指示に対する新評価指標を設計し、これを用いた再学習で精度をさらに向上させた（Section 6） .
+
+## 7. 結論と今後の展望
+
+Nebula は「全談話＋全アクション」を直前文脈に取るだけで従来比ほぼ2倍の性能を達成し、さらに談話構造を活用することで同等の効率化が可能であることを示した。今後は、相対位置指示への対応や多モーダル情報統合、リアルタイム対話ロボット応用などが期待される .
+</details>
+
+<details><summary>Modeling Collaborative Dialogue in Minecraft with Action-Utterance Model</summary>
+
+[参考](https://aclanthology.org/2023.ijcnlp-srw.10.pdf)  
+
+---
+
+## 1. 研究背景と目的
+
+近年のニューラル対話システムは、人間と協調してタスクを完遂する能力が求められています。しかし、仮想環境上での共同作業研究では、行動（action）生成と発話（utterance）生成が別々に扱われることが多く、実際の協調設定では両者を自律的に判断・実行できるモデルが必要です。本研究では、Minecraft上の共同作業データセットを用い、次に「行動を行うか」「発話するか」を自律的に決定し、かつ内容を生成できる**Action-Utterance Model**を提案します ([aclanthology.org][1]).
+
+---
+
+## 2. データセットとタスク定義
+
+* **Collaborative Garden Task Corpus**（Ichikawa & Higashinaka, 2022）
+
+  * 1,092対話、合計31,416発話、657,693ブロック操作を記録。対話は日本語で行われ、10×10×4領域内で17種類のブロックを用いたガーデン作成タスクを含む ([aclanthology.org][1]).
+* **Next Action-Utterance Generation Task**
+
+  * あるターンtにおいて、過去対話・行動履歴 $H_t$、ワールドステート $W_t$、アバター位置・向きを入力とし、次のアクションタイプ（UTT／BLOCK／SKIP／FINISH）と、その内容（発話テキスト $u_t$ またはブロック操作集合 $b_t$）を予測する ([aclanthology.org][1]).
+
+---
+
+## 3. 提案モデル：Action-Utterance Model
+
+**全体構成**（Figure 2）
+
+1. **テキスト情報**：過去 $N=10$ ターン分の〈発話＋状態変化ΔW＋ワールドステートW〉をトークナイズ
+2. **非言語情報埋め込み**
+
+   * Voxelデータ用 Flattened Voxel Block Encoder
+   * 位置情報（GPS）用 MLP
+   * 向き情報（Compass）用 MLP
+     でそれぞれ「1トークン相当」のベクトルに変換し、テキスト埋め込みと連結 ([aclanthology.org][1]).
+3. **LLM デコーダ**：Transformerデコーダ（OpenCALM-Large, 830Mパラメータ）をLoRA微調整し、次アクションタイプ＋内容を生成
+4. **出力**：最初にタイプトークン、続いて UTT なら発話テキスト、BLOCK なら最大4件のブロック操作を出力 ([aclanthology.org][1]).
+
+---
+
+## 4. 実験設定
+
+* **データ分割**：1,092対話を train:980 / val:56 / test:56 にランダム分割 ([aclanthology.org][1]).
+* **比較モデル**
+
+  * **行動タイプ分類**：Random, Majority
+  * **行動生成**：Random feasible operations
+  * **発話生成**：UG (Utterance-only Transformer)
+* **学習**：LoRA による MLE 最適化、検証損失最小チェックポイントを利用 ([aclanthology.org][1]).
+* **評価指標**
+
+  * 行動タイプ分類：Accuracy, Macro-F1
+  * 行動生成：Jaccard (全属性／タイプのみ)
+  * 発話生成：BLEU-1/2, Distinct-1 ([aclanthology.org][1]).
+
+---
+
+## 5. 実験結果
+
+### 5.1 行動タイプ分類
+
+| モデル                                                                         | Accuracy  | Macro-F1 |
+| --------------------------------------------------------------------------- | --------- | -------- |
+| Random                                                                      | 0.24      | 0.19     |
+| Majority                                                                    | 0.61      | 0.19     |
+| **Action-Utterance**                                                        | **0.81**★ | **0.67** |
+| ★ は Random/Majority と比較し McNemar検定で $p<0.05$ の有意改善 ([aclanthology.org][1]). |           |          |
+
+### 5.2 行動生成
+
+* Jaccard全属性: 0.34 → 事後フィルタや他手法比較で大幅改善
+* Jaccardタイプのみ: 0.72
+  （詳しい数値は論文 Table 2 を参照）
+
+### 5.3 発話生成
+
+* BLEU-1: 0.18
+* BLEU-2: 0.07
+* Distinct-1: 0.42
+  発話専用モデル UG を上回る多様性と正確性を実現 ([aclanthology.org][1]).
+
+---
+
+## 6. 考察
+
+* **自律判断**：Contextに基づく行動 vs 発話の選択が高精度
+* **依存関係の難しさ**：最後の行動と無関係な次行動生成は依然課題
+* **非言語情報の効果**：ワールドステート・位置情報埋め込みが性能向上に寄与
+
+---
+
+## 7. 結論と今後の展望
+
+Action-Utterance Model は、Minecraftの共同対話タスクにおいて「行動か発話か」の判断とその内容生成を\*\* unified\*\*に行う初のモデルとして、高性能を示しました。今後は以下の課題があります：
+
+* 行動選択のさらなる一般化
+* 長期的プランニングとの統合
+* リアルタイムユーザ実験による評価
+
+以上が本論文の詳細なまとめです。さらに深い技術的検討や実装支援が必要であればお知らせください。
+
+[1]: https://aclanthology.org/2023.ijcnlp-srw.10.pdf "Modeling Collaborative Dialogue in Minecraft with Action-Utterance Model"
+
+</details>
+
