@@ -3032,3 +3032,275 @@ Action-Utterance Model は、Minecraftの共同対話タスクにおいて「行
 
 </details>
 
+<details><summary>CAD-LLM: Large Language Model for CAD Generation</summary>
+
+[参考](https://neuripscreativityworkshop.github.io/2023/papers/ml4cd2023_paper15.pdf)  
+
+## 概要
+
+本論文「CAD-LLM: Large Language Model for CAD Generation」は，パラメトリックCAD設計における自動生成タスクに対し，自然言語処理で成功を収めた大規模言語モデル（LLM）を適用し，エンジニアリングスケッチの理解と生成を行う手法を提案しています。パラメトリックCADは現代の機械設計において主流である一方，従来の生成モデルは幾何学的推論の複雑さから実務レベルの性能を発揮できていませんでした。本研究では，既存のT5やGPT-3.5といった自然言語向け基礎モデルをファインチューニングし，スケッチ列をトークン列として扱うことで，高い性能を達成した点が特徴です。 ([neurips.cc][1])
+
+## 背景と課題
+
+パラメトリックCAD設計では，スケッチの各要素（直線・円弧・円）を正確に配置し，参照CADデザインのリポジトリを活用しながら設計を行う必要があります。しかし，Transformerベースの既存モデル（例：Vitruvion \[5] や SketchGraphs関連研究）は，スケッチ間の関係性や連続的パラメータの推論に苦戦し，現実的な設計支援には至っていませんでした。本手法は，この課題を解決するため，「スケッチを文字列列として定式化」し，大規模言語モデルの「文脈依存生成能力」をCAD分野に転移する点に新規性があります。 ([research.autodesk.com][2])
+
+## モデルのパイプライン
+
+1. **データ正規化・量子化**
+   各スケッチは，1m四方のバウンディングボックス内に正規化後，6ビットの一様量子化を施すことで連続パラメータを離散化し，多様なスケールに対応します（\[5] と同様の手法）｡
+2. **トークン化**
+   直線は端点2つ，円弧は端点3つ，円は4点で表現し，各ポイント座標をトークン列として列挙。
+3. **ファインチューニング**
+   自然言語向けに事前学習されたT5（770Mパラメータ）およびGPT-3.5を，CADスケッチ生成タスクへPEFT（例：LoRA）を用いて適用します。 ([research.autodesk.com][3])
+
+## CAD自動補完タスク
+
+本研究では「CAD AutoCompletion」というタスクを設定し，スケッチの部分列（20%–80%）を与えられた際に残余部分を生成する問題として定式化しています。損失関数は次式の通りです：
+
+$$
+L(\Phi) = -\sum \log \Phi(S \mid S_p) = -\sum \log \Phi(p_{i:N} \mid p_{<i})
+$$
+
+ここで $S_p$ はスケッチ要素のプレフィックス列，$\Phi$ はモデルパラメータ，$p_i$ は個々のポイント座標を指します。 ([neurips.cc][1])
+
+## 評価指標
+
+生成モデルの定量評価には，本手法で新規に3つのCAD特化メトリクスを導入しています：
+
+* **Entity Accuracy**：生成したスケッチ要素のうち，正解と一致する要素が少なくとも1つ含まれる確率
+* **Sketch Accuracy**：完全一致する残りスケッチを生成する確率
+* **CAD F1**：Entity AccuracyとSketch Accuracyの調和平均
+
+$$
+\text{CAD F1} = \frac{2 \times \text{precision} \times \text{recall}}{\text{precision} + \text{recall}}
+$$
+
+precision = $N_c/N_p$，recall = $N_c/N$ であり，$N_c$は正解要素数，$N_p$は生成要素数，$N$は正解スケッチ要素数を示します。 ([research.autodesk.com][3])
+
+## 実験設定
+
+* **データセット**：SketchGraphs \[4] を使用し，主にVitruvionをベースラインとして比較。
+* **モデル**：T5-770MをCAD-LLMベース，GPT-3.5はLoRAを用い15%までのデータでファインチューニング
+* **学習**：20エポックのトレーニングで収束を確認
+* **比較**：Vitruvion，ChatGPT（GPT-3.5），CAD-LLMの3手法を20%–80%のプレフィックス比で検証 ([research.autodesk.com][2])
+
+## 実験結果
+
+| モデル         | Entity Acc | Sketch Acc | CAD F1    |
+| ----------- | ---------- | ---------- | --------- |
+| Vitruvion   | 0.407      | 0.030      | 0.113     |
+| ChatGPT     | 0.413      | 0.068      | 0.212     |
+| **CAD-LLM** | **0.689**  | **0.225**  | **0.440** |
+
+CAD-LLMは，いずれの指標においても他手法を大きく上回り，特にSketch Accuracyは3倍以上の改善を示しました。また，GPT-3.5の微調整データ量を増やしても著しい性能向上は見られず，T5ベースのモデルがCAD領域への転移学習に最適であることが示唆されました。 ([neurips.cc][1])
+
+## 貢献と今後の展望
+
+本研究の主な貢献は以下の3点です：
+
+1. **CADスケッチ生成パイプラインの構築**：自然言語向け基礎モデルをCAD領域へ適用する具体的手順を示した
+2. **新規評価指標の提案**：Entity Accuracy，Sketch Accuracy，CAD F1の定義とその有効性を実証
+3. **実験的検証**：T5-770MベースのCAD-LLMが従来手法を大きく上回る性能を達成
+
+今後は，「CAD Autoconstraint」や「画像条件生成」といった多様なタスクへの拡張や，ビジョン・言語のマルチモーダル学習を組み込むCadVLM\[4]への展開が期待されます。 ([arxiv.org][4], [neurips.cc][1])
+
+[1]: https://neurips.cc/virtual/2023/75064?utm_source=chatgpt.com "NeurIPS CAD-LLM: Large Language Model for CAD Generation"
+[2]: https://www.research.autodesk.com/publications/ai-lab-cad-llm/?utm_source=chatgpt.com "CAD-LLM: Large Language Model for CAD Generation"
+[3]: https://www.research.autodesk.com/app/uploads/2024/05/cadllm_neurips2023_workshop-1.pdf?utm_source=chatgpt.com "[PDF] CAD-LLM: Large Language Model for CAD Generation"
+[4]: https://arxiv.org/abs/2409.17457?utm_source=chatgpt.com "CadVLM: Bridging Language and Vision in the Generation of Parametric CAD Sketches"
+</details>
+
+<details><summary>A Solver-Aided Hierarchical Language for LLM-Driven CAD Design</summary>
+
+[参考](https://arxiv.org/pdf/2502.09819?)  
+
+---
+
+## 概要
+
+本論文では、LLM（大規模言語モデル）を用いた手続き的CAD（Computer Aided Design）生成の課題を解決するため、**AIDL（AI Design Language）** と呼ばれる「ソルバー支援型階層DSL（Domain-Specific Language）」を提案します。AIDLは幾何的制約解決器に空間推論を任せることで、LLMは高レベルの設計意図表現に集中できるようにし、少数ショット学習環境下であっても、従来のOpenSCADを上回る視覚的忠実度と編集性を実現することを示しています ([arxiv.org][1])。
+
+---
+
+## 背景と動機
+
+* **パラメトリックCADの特徴**
+  CADモデルは「構造的操作のシーケンス」としてプログラム可能であり、高精度かつ編集性に優れる。しかし、従来の生成AIは幾何学的推論や長大なプログラム生成に苦戦してきました 。
+* **LLM＋ジオメトリ生成の試み**
+  モデル出力を直接形状にせず「CADプログラム」を生成させるアプローチは有望ですが、既存CAD DSLにはLLM特有の要件（空間推論、自然言語的操作、階層構造の扱い）を満たすものがありません 。
+
+---
+
+## AIDLの設計目標
+
+論文では、LLM駆動CADにおいてDSLが満たすべき**4つのデザインゴール**を定義しています ：
+
+1. **依存参照（dependencies）**：以前に構築したジオメトリを暗黙的に参照できる
+2. **制約指定（constraints）**：部品間の関係を宣言的に記述し、ソルバーで解決
+3. **意味論的抽象（semantics）**：自然言語的に意味のある操作名や変数名を用いる
+4. **階層構造（hierarchy）**：設計をモジュール的に分割し、局所的な編集性を高める
+
+既存のCAD DSL（CSG、クエリベース、制約ベース）はいずれかの要素は備えるものの、4点すべてを同時に満たすものはなく、AIDLではそれを可能にしています 。
+
+---
+
+## DSLの主要特徴と実装
+
+1. **ソルバー支援型設計**
+
+   * LLMには「関係性記述」に専念させ、空間計算はバックエンドのジオメトリ制約ソルバーへオフロード。
+2. **構造（structure）による階層化**
+
+   * 複雑モデルを「構造体」として階層化し、部分ごとの制約解決を再帰的に行うことで計算コストを抑制。
+3. **参照の制限**
+
+   * ブーリアン演算後に生成されるジオメトリは明示参照せず、演算前のプリミティブだけを名前付き参照可能にすることで、トポロジ変更に強い設計を実現。
+4. **自然言語的操作名**
+
+   * `coincident`, `symmetric` など、セマンティックに意味の通る演算子名を導入し、LLMが直感的に扱えるインターフェースを提供 。
+
+---
+
+## 実験と評価
+
+* **タスク設定**：与えられたテキストプロンプトから2Dスケッチを生成し、AIDL完全版、階層無効版、制約無効版、OpenSCADの4種を比較。
+* **評価指標**：CLIPスコアによる視覚的一致度評価および知覚調査によるレンダリング品質評価を実施。
+* **結果**：
+
+  * AIDLは、LLMがAIDLの学習データを持たない少数ショット環境でも、OpenSCADを上回るCLIPスコアとユーザ評価を獲得。
+  * **階層機能** により局所編集性が向上、**制約機能** により複数部品からなる設計を高精度に合成可能。
+  * 言語設計のみでLLM性能を飛躍的に向上させうることを実証 。
+
+---
+
+## 主な貢献と今後の展望
+
+1. **新規DSLの提案**：ソルバー支援・階層化を組み合わせたCAD向けDSL「AIDL」を提示。
+2. **デザインゴールの定式化**：LLM駆動CADに必要な4要素を明確化。
+3. **実証実験**：AIDLが少数ショット環境下で既存言語を凌駕することを定量的・定性的に評価。
+4. **拡張可能性**：3D拡張、マルチモーダル入力、商用CADツールとの連携などへの発展余地を議論 。
+
+---
+
+以上が本論文の詳細な解説です。AIDLのコード例やさらなる技術的詳細については、論文本文（[https://arxiv.org/pdf/2502.09819）をご参照ください。](https://arxiv.org/pdf/2502.09819）をご参照ください。)
+
+[1]: https://arxiv.org/pdf/2502.09819?utm_source=chatgpt.com "[PDF] arXiv:2502.09819v1 [cs.CV] 13 Feb 2025"
+
+</details>
+
+<details><summary>CAD-Llama: Leveraging Large Language Models for Computer-Aided Design Parametric 3D Model Generation</summary>
+
+[参考](https://openaccess.thecvf.com/content/CVPR2025/papers/Li_CAD-Llama_Leveraging_Large_Language_Models_for_Computer-Aided_Design_Parametric_3D_CVPR_2025_paper.pdf)  
+
+以下、論文「CAD-Llama: Leveraging Large Language Models for Computer-Aided Design Parametric 3D Model Generation」（CVPR 2025）について詳しくまとめます。
+
+## 概要
+
+CAD-Llamaは、大規模言語モデル（LLM）をパラメトリック3D CADモデリングに適用するためのフレームワークです。まずCAD設計履歴をPythonライクなコード形式（Structured Parametric CAD Code, SPCC）に変換し、階層的なテキスト注釈を付与します。その後、SPCCコーパスを用いたアダプティブ事前学習と、CAD特化の命令チューニングを順に行うことで、LLMに空間知識と設計意図の理解能力を獲得させます ([openaccess.thecvf.com][1])。
+
+## 背景と課題
+
+従来のCAD生成モデルは、点群やメッシュなどジオメトリ入力をCADコマンドに変換する手法が主流でしたが、LLMによる直接的なパラメトリックシーケンス生成は未踏の領域でした。また、LLMは自然言語やコード生成には長けていますが、CADコマンドに含まれる空間構造や設計意図を自明には扱えません ([openaccess.thecvf.com][1])。
+
+## 手法
+
+1. **階層注釈パイプライン**
+
+   * 各CADモデルをコンポーネントごとに分解し、3Dレンダリング画像と2DスケッチをVLM（GPT-4o）へ入力して詳細説明を生成（第1段階）。
+   * 次に全体像と部品間の関係性を捉えた抽象／詳細説明を生成し、各部品に短い識別名を付与（第2段階）。
+   * これらをSPCC形式のコードに組み込み、階層構造を反映させた注釈付きデータを得る ([openaccess.thecvf.com][1])。
+
+2. **アダプティブ事前学習**
+
+   * 得られたSPCCコーパスを用いて、DeepSpeed＋Flash-Attention環境下でLLMをフルファインチューニングし、CADコマンド列の生成能力を獲得させる ([openaccess.thecvf.com][1])。
+
+3. **命令チューニング**
+
+   * LoRAによるパラメータ効率的なチューニングで、テキスト→CAD生成や部品追加・削除など複数の下流タスクに対応可能な指示モデルへと最適化する ([openaccess.thecvf.com][1])。
+
+## 実験設定とベースライン
+
+* **無条件生成**：DeepCAD, SkexGen, HNC-CAD
+* **テキスト→CAD**：Text2CAD, CAD-Translator
+* **下流タスク**：GPT-4, GPT-3.5, LLaMA3-8B, Mistral-7B
+* 評価指標には、Coverage (COV), MMD, JSD, Success Ratio, Noveltyなどを使用 ([openaccess.thecvf.com][1])。
+
+## 実験結果
+
+* **無条件生成**：CAD-LlamaはJSDやMMDで最良、Success Ratioでは99.90%を達成し、既存手法を上回る安定性と分布適合性を示した ([openaccess.thecvf.com][1])。
+* **テキスト→CADタスク**：ACCT（生成命令の正確性）が84.72%と、Text2CAD（69.91%）やCAD-Translator（70.36%）を大きくリード。MCD, MMD, JSDも大幅改善 ([openaccess.thecvf.com][1])。
+* **CAD関連下流タスク**：キャプション生成やコマンド／パラメータ追加・削除タスクで平均63.58%を獲得し、GPT-4比で約15.7ポイントの改善。特に構造化注釈による理解力向上が顕著 ([openaccess.thecvf.com][1])。
+* **アブレーション**：SPCC（階層注釈＋コード形式）が、単一説明やシーケンス形式に対し20～40%近い精度向上を実証し、階層化とコード表現の効果を裏付けた ([openaccess.thecvf.com][1])。
+
+## 貢献と今後の展望
+
+1. LLMの生成的事前学習をCADコマンド生成へ拡張する新パラダイムを提案。
+2. VLMを用いた2段階階層注釈パイプラインで、詳細かつ構造化されたSPCCフォーマットを構築。
+3. 多タスク命令チューニングにより、設計補完から編集操作まで幅広いCADタスクに対応。
+4. 将来的には3D拡張や商用CADツール連携、さらに大規模モデルへの適用により、LLM駆動CAD生成の可能性が一層拡大すると期待される ([openaccess.thecvf.com][1])。
+
+[1]: https://openaccess.thecvf.com/content/CVPR2025/papers/Li_CAD-Llama_Leveraging_Large_Language_Models_for_Computer-Aided_Design_Parametric_3D_CVPR_2025_paper.pdf "CAD-Llama: Leveraging Large Language Models for Computer-Aided Design Parametric 3D Model Generation"
+
+</details>
+
+<details><summary>Query2CAD: Generating CAD Models Using Natural Language Queries</summary>
+
+[参考](https://arxiv.org/pdf/2406.00144)  
+
+
+---
+
+## 概要
+
+Query2CAD は，ユーザの自然言語クエリから Python マクロを生成し，FreeCAD 上で 3D CAD モデルを自動生成するフレームワークです。大規模言語モデル（LLM）を生成器かつ自己改良器として用い，BLIP2 によるキャプションと Visual Question Answering（VQA）スコアをフィードバックに取り入れることで，追加学習や教師データなしでも反復的に精度を向上させます 。
+
+---
+
+## 背景
+
+従来，3D モデル生成はメッシュ・点群・ボクセルといったデータ形式を扱う手法が主流でしたが，CAD モデルは製造工程への直接転用や詳細設計を可能にする点で重要です。また，人間の CAD 設計者は試作→フィードバック→修正のサイクルを繰り返しますが，既存の LLM 出力は一発生成が中心であり，反復改良を伴う CAD モデリング支援は未整備でした 。
+
+---
+
+## 手法
+
+1. **生成フェーズ**：ユーザのクエリ（例：“水筒の CAD デザインを作って”）を LLM（GPT-3.5/Turbo または GPT-4 Turbo）に与え，FreeCAD 用の Python マクロコードを生成します。
+2. **エラー改良ループ**：マクロ実行時に発生したエラーメッセージとコードを再度 LLM に渡し，最大 3 回のエラー改良を行います。
+3. **モデル改良ループ**：実行後のアイソメ図を取得し，Clip-FlanT5-XL による VQA スコアで最終出力を評価。スコアが閾値（デフォルト 0.9）未満の場合，BLIP2 または人手によるキャプションをフィードバックとして LLM に与え，最大 3 回の改良を行います。
+4. **自動化**：PyAutoGUI を用い，FreeCAD の起動・マクロ実行・スクリーンショット・終了を自動化 。
+
+---
+
+## データセット
+
+本研究用に，難易度別（Easy/Medium/Hard）に分類した 57 件のクエリを自作しました。
+
+* **Easy**：立方体や球など単純形状（例：“辺長 10mm の立方体”） 21 問
+* **Medium**：基本形状＋配置操作（例：“球の上に辺長 10mm の立方体”） 20 問
+* **Hard**：複雑構造（例：“バスケットボールのフープ”） 16 問 。
+
+---
+
+## 実験結果
+
+* **GPT-4 Turbo**：Easy 95.23%，Medium 70%，Hard 41.7% の一発成功率
+* **GPT-3.5 Turbo**：Easy 85.71%，Medium 35%，Hard 37.5% 。
+  さらに，最初の改良ループ実行で成功率が平均 23.1% 向上し，特に一回目の自己改良が最も効果的でした 。
+
+---
+
+## 貢献と展望
+
+1. 自然言語→CAD マクロ生成＋自己改良ループによる，教師データ不要の CAD 設計自動化パイプラインを提案。
+2. VQA スコアとキャプションフィードバックを組み合わせた反復改良手法を実装・評価。
+3. PyAutoGUI による CAD ソフト操作の自動化でユーザ介入を最小化。
+   今後は，多様な CAD 操作や複数ビュー評価，商用 CAD ツール連携への拡張が期待されます。
+
+</details>
+
+<details><summary></summary>
+
+[参考](https://www.google.com/url?client=internal-element-cse&cx=000299513257099441687:fkkgoogvtaw&q=https://aclanthology.org/2023.emnlp-main.649.pdf&sa=U&ved=2ahUKEwiT4KKJ6PeNAxWtzTQHHZMeCxsQFnoECAMQAg&usg=AOvVaw1CnsQzsjtbH1fx1N1x5aUq&fexp=72986057,72986056)  
+
+
+</details>
