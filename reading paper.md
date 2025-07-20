@@ -3298,9 +3298,155 @@ Query2CAD は，ユーザの自然言語クエリから Python マクロを生�
 
 </details>
 
-<details><summary></summary>
+<details><summary>People Make Better Edits: Measuring the Efficacy of LLM-Generated
+ Counterfactually Augmented Data for Harmful Language Detection</summary>
 
 [参考](https://www.google.com/url?client=internal-element-cse&cx=000299513257099441687:fkkgoogvtaw&q=https://aclanthology.org/2023.emnlp-main.649.pdf&sa=U&ved=2ahUKEwiT4KKJ6PeNAxWtzTQHHZMeCxsQFnoECAMQAg&usg=AOvVaw1CnsQzsjtbH1fx1N1x5aUq&fexp=72986057,72986056)  
 
+## 研究背景と目的
+近年、性差別的・ヘイトスピーチ的な発言の検出モデルは、訓練データ中の「スプリアスな特徴（例えば特定の単語の有無）」に依存しやすく、ドメイン外（OOD）データへの一般化が不足しがちである。  
+**Counterfactually Augmented Data(CAD)**は、既存の文例を「ラベルが反転するような最小限の変更」加えて拡張する手法で、モデルが本質的なタスクに注目する助けとなる。しかし、手動生成は労力とコストが大きいため、LLMを用いて自動生成したCADが、手動CADに匹敵する効果をもたらすかを検証するのが本研究の目的である。  
+
+## 2. 手法概要
+
+1. **CAD生成**
+
+   * **手動CAD**: 先行研究（Samory et al., 2021; Vidgen et al., 2021）で作成されたものを再利用
+   * **自動CAD**:
+
+     * **Polyjuice**（GPT‑2ベース, 制御コード8種）
+     * **ChatGPT**（GPT‑3.5ベース，OpenAI API経由）
+     * **Flan‑T5**（Instruction‑tuned T5ファミリー）
+       各方式で生成した複数のCADからランダムに1つを選択し，元文とペアとして使用 。
+
+2. **モデルアーキテクチャ**
+
+   * **RoBERTa**, **Flan‑T5**, **SVM + FastText** を微調整
+   * ベースラインとして，ChatGPT／Flan‑T5のfew-shot分類（FSGPT, FSFT）およびPerspective API（PTox）も評価 。
+
+3. **評価指標**
+
+   * **マクロF1**を主指標とし，インドメイン（ID）と複数のOODテストセット（性差別検出で3～4種類，ヘイトスピーチ検出で5種類）＋ヘイトチェック（HC）で比較 。
+
+---
+
+## 3. 実験設定
+
+* **訓練データ構成**: オリジナル文とCAD（50:50または25:75）の割合でサンプリングし，各CAD方式ごとに同等サイズの訓練セットを構築
+* **データ難易度解析**: V-Informationの点ごとの拡張である**Pointwise V-Information (PVI)** を用い，各CADインスタンスの「学習しやすさ」を定量化し，CAD特性（編集距離，意味的類似度，編集タイプなど）との関連を解析 。
+
+---
+
+## 4. 主な結果と考察
+
+1. **OOD性能の比較（RQ1）**
+
+   * **手動CAD**を含むモデル（mCAD）は，ID性能は低いものの，ほとんどすべてのOODデータセットで最大のマクロF1を達成
+   * \*\*ChatGPT CAD（aCADGPT）\*\*が自動CAD中で最も効果的であり，手動CADにかなり肉薄
+   * **Polyjuice, Flan‑T5 CAD**（aCADPJ, aCADFT）は，変更が不十分であるためOOD性能が低い
+   * \*\*手動＋自動CAD混合（amCAD）\*\*は性差別検出で最高のOOD性能を示す&#x20;
+   * Few‑shot ChatGPT（FSGPT）も競合的な性能を示すものの，訓練データとのデータ重複の影響に注意が必要 。
+
+2. **CAD特性の分析（RQ2）**
+
+   * **編集距離**: Polyjuice/Flan‑T5は平均2トークン程度と小さすぎ，ChatGPTは10トークン以上と大きすぎ，手動は中間
+   * **意味的類似度**（SBERT）: Polyjuice/Flan‑T5は0.9前後（高すぎ），ChatGPTは0.67（手動CADに近い）
+   * **編集タイプ**: 性差別では性別語の削除，ヘイトではアイデンティティ語の編集が重要
+   * **PVI解析**: CADを訓練に含めるとOODデータの平均PVIが負から正に向上し，学習しやすさが改善（性差別: −0.05→0.10, ヘイト: −0.19→0.17） 。
+     → 自動CADは「ラベルを反転させるだけの十分な変更」がされていないケースが多く，ラベル誤りを誘発しやすい。
+
+---
+
+## 5. 貢献と示唆
+
+* **手動CADが依然最も効果的**だが，**ChatGPT CADが次点**を占め，完全自動化の可能性を示唆
+* 自動CADを活用するには，**自動生成→人手によるラベル検証**のハイブリッド運用が望ましい
+* CAD特性の定量分析により，「編集距離」と「意味的乖離」がOOG性能向上に与える影響を明らかに
+* 提案モデル・生成データ一式はGitHubで公開中: [https://github.com/Indiiigo/automatedCAD](https://github.com/Indiiigo/automatedCAD)&#x20;
+
+---
+
+</details>
+
+<details><summary>沈黙の認識</summary>
+
+以下、この論文 “The perception of silence” (PNAS, 2023) について、セクションごとに詳しく解説します。
+
+---
+
+## 論文情報
+
+* **タイトル**: The perception of silence
+* **著者**: Rui Zhe Goh, Ian B. Phillips, Chaz Firestone
+* **所属**: Johns Hopkins University（Department of Psychological and Brain Sciences & Department of Philosophy）
+* **刊行誌**: Proceedings of the National Academy of Sciences (PNAS), Vol. 120, No. 29, e2301463120
+* **公開日**: 2023年7月10日（オンライン公開）／2023年7月18日（印刷版） ([PubMed][1], [国立科学アカデミー行動科学誌][2])
+
+---
+
+## 1. 研究背景
+
+人間の聴覚は通常「音」を捉える感覚として理解されますが、日常生活では「沈黙」の経験──例えば耳を澄ませたときの一瞬の静寂や音楽終了後の余韻──もあります。
+哲学・認知科学の分野では、「沈黙を知覚するのか（perceptual）、それともただ不在を判断するのか（cognitive）」をめぐり長年の論争があります。しかし、これまで実験的に沈黙が“本当に”知覚されるかを直接検証した研究はほとんどありませんでした ([PubMed][1], [EurekAlert!][3])。
+
+---
+
+## 2. 研究目的
+
+本研究では、聴覚イベントの表象を示す「時間歪みを伴う聴覚錯覚」（例: one-is-more illusion）に着目し、
+
+> **“沈黙が音と同様に錯覚を引き起こすか”**
+> を実験的に検証することで、沈黙の知覚性（perceptual status）を問います ([PubMed][1], [EurekAlert!][3])。
+
+---
+
+## 3. 実験方法
+
+1. **沈黙ベースの錯覚（Silence Illusions）の設計**
+
+   * 代表的な音ベースの錯覚を、音の代わりに「無音区間（silence）」へ置き換え。
+   * 例：
+
+     * 「one-is-more illusion」 → 「one-silence-is-more illusion」
+     * 2つの短い無音区間（合計長さ一定） vs. 1つの長い無音区間を比較。
+2. **参加者**: 合計約1,000名の被験者をオンライン実験で募集。
+3. **手続き**:
+
+   * 忙しい飲食店や駅の雑踏をシミュレートしたサウンドスケープ中で、音が一瞬途切れる「無音区間」を提示。
+   * その後、被験者に「長い無音 vs. 2つの短い無音、どちらが長く感じるか」を回答させる。 ([EurekAlert!][3])。
+
+---
+
+## 4. 結果
+
+* **錯覚の再現性**:
+
+  * 音ベースと同様に、「one long silence」を「two short silences」よりも長く感じるという錯覚が確認された。
+  * 他の複数の錯覚実験でも、音版と無音版でほぼ同一の結果を示し、統計的に有意な時間歪みが観察された。
+* **解釈**:
+
+  * これらは「沈黙が単なる不在ではなく、聴覚的イベントとして処理されうる」ことを示唆する。 ([EurekAlert!][3])。
+
+---
+
+## 5. 考察と意義
+
+* **理論的示唆**:
+
+  * 従来の “音のみが聴覚対象” という見解に対し、「何もない状態（silence）も“聞く”対象となり得る」という新たな視点を提供。
+* **方法論的貢献**:
+
+  * 無音版聴覚錯覚という汎用的手法を提案し、「欠如の知覚（perception of absence）」研究へ応用可能。
+* **今後の展望**:
+
+  * 音に先行しない沈黙の知覚程度、さらには視覚的消失現象（visual disappearance）など他の感覚欠如にも手法を拡張する計画。 ([EurekAlert!][3])。
+
+---
+
+以上のように，本研究は実験的証拠をもって沈黙の知覚性を示し，「聞く」という行為の概念を再定義する画期的な成果を挙げています。さらに詳しい統計解析や追加実験デザインに関する質問などがあれば、お気軽にお知らせください。
+
+[1]: https://pubmed.ncbi.nlm.nih.gov/37428927/?utm_source=chatgpt.com "The perception of silence - PubMed"
+[2]: https://www.pnas.org/doi/10.1073/pnas.2301463120?utm_source=chatgpt.com "The perception of silence - PNAS"
+[3]: https://www.eurekalert.org/news-releases/994869 "The sound of silence? Researchers prove people hear it | EurekAlert!"
 
 </details>
