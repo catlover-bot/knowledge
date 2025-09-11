@@ -49,6 +49,8 @@ OpenAIは９月５日、言語モデルで発生するハルシネーション�
 
 </details>
 
+# 9/11(Th)
+
 <details><summary>最低限のNetwork知識</summary>
 
 # ネットワークモデルのoverview
