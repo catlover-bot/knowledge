@@ -34,4 +34,4 @@
 ... 
 
 ## 論文読み  
-[memo](papers/legacy/reading-paper.md)
+[memo](papers/README.md)
