@@ -1697,3 +1697,38 @@ ACCLAIMは、
 
 
 </details>
+
+<details><summary>Geometric Context Transformer for Streaming 3D Reconstruction</summary>
+
+- [参考](https://arxiv.org/abs/2604.14141)
+- [関連](https://technology.robbyant.com/lingbot-map)
+- [関連](https://github.com/robbyant/lingbot-map)
+
+Abstract page for arXiv paper 2604.14141: Geometric Context Transformer for Streaming 3D Reconstruction
+
+</details>
+
+<details><summary>MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation</summary>
+
+- [参考](https://arxiv.org/abs/2605.27366)
+
+Abstract page for arXiv paper 2605.27366: MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation
+
+</details>
+
+<details><summary>PaperMentor: A Human-Centered Multi-Agent Writing Tutor for AI Research Papers on Overleaf</summary>
+
+- [参考](https://github.com/jiarui-liu/overleaf)
+- [関連](https://chatpaper.com/ja/paper/297160)
+
+PaperMentor is an open-source, multi-agent AI writing assistant that provides actionable, expert-level feedback on AI research papers during the drafting phase in Overleaf, significantly improving the quality of comments compared to traditional AI writing tools.
+
+</details>
+
+<details><summary>科学論文での図表作成のルール</summary>
+
+- [参考](https://www.jstage.jst.go.jp/article/ningendock/38/5/38_659/_article/-char/ja)
+
+J-STAGE
+
+</details>
