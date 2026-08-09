@@ -34,4 +34,4 @@
 ... 
 
 ## 論文読み  
-[memo](https://github.com/catlover-bot/knowledge/blob/main/reading%20paper.md)
+[memo](papers/legacy/reading-paper.md)
