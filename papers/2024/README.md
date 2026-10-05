@@ -2,6 +2,13 @@
 
 [テーマ別の入口へ戻る](../../topics/README.md)
 
+## 図解付きの論文ノート
+
+- [DeepSeek-Prover-V1.5：証明器の応答を次の探索へ](deepseek-prover-v1-5.md)
+- [Text2CAD：文章からCADの設計手順へ](text2cad.md)
+
+## 既存の読書記録
+
 <details><summary>大規模言語モデルを用いた分の言い換えによる文脈の自然言語表現</summary>
 
 - [参考](https://www.jstage.jst.go.jp/article/pjsai/JSAI2024/0/JSAI2024_3T1OS6a01/_pdf)

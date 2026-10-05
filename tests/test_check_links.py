@@ -165,14 +165,16 @@ class LinkChecks(unittest.TestCase):
         self.assertEqual(len(expanded.issues), 1)
         self.assertIn("absent.md", expanded.issues[0].message)
 
-    def test_default_scope_is_navigation_only(self):
+    def test_default_scope_includes_papers_not_historical_journals(self):
         for name in checker.DEFAULT_FILES:
             self.write(name, "# Index\n")
         self.write("topics/new.md", "# Topic\n")
         self.write("topics/nested/new.md", "# Topic\n")
+        self.write("papers/2020/rag.md", "# Paper\n")
+        self.write("assets/diagrams/README.md", "# Figure sources\n")
         self.write("journals/2024/old.md", "[historical](absent.md)")
         sources = checker.default_sources(self.root)
-        self.assertEqual(len(sources), 7)
+        self.assertEqual(len(sources), 9)
         self.assertEqual(checker.check_paths(sources).issues, [])
 
     def test_missing_source_is_an_error(self):
