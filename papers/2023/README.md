@@ -1,5 +1,9 @@
 # Papers  2023
 
+[テーマ別の入口へ戻る](../../topics/README.md)
+
+<a id="trigo"></a>
+
 <details><summary>TRIGO: Benchmarking Formal Mathematical Proof Reduction for Generative Language Models</summary>
 
 [参考](https://aclanthology.org/2023.emnlp-main.711.pdf)  

@@ -1,5 +1,7 @@
 # Papers  2024
 
+[テーマ別の入口へ戻る](../../topics/README.md)
+
 <details><summary>大規模言語モデルを用いた分の言い換えによる文脈の自然言語表現</summary>
 
 - [参考](https://www.jstage.jst.go.jp/article/pjsai/JSAI2024/0/JSAI2024_3T1OS6a01/_pdf)
@@ -68,6 +70,8 @@
 
 > この研究は、AI技術によるプロセス自動化の可能性を示し、シミュレーション生成の新しいパラダイムを提供している。
 </details>
+
+<a id="ircoder"></a>
 
 <details><summary>IRCoder: Intermediate Representations Make Language Models Robust Multilingual Code Generators</summary>
 
@@ -248,6 +252,8 @@ Lean Copilotは、LLMsをLeanの証明環境に組み込み、証明の提案や
 本研究は、LLMsと定理証明支援システムの統合が、数学の定理証明の自動化と効率化に有望であることを示している。今後は、より高度な統合や、他の証明支援システムとの連携、さらには人間とAIの協調による証明構築の研究が期待されている。
 </details>
 
+<a id="theoremllama"></a>
+
 <details><summary>TheoremLlama: Transforming General-Purpose LLMs into Lean4 Experts</summary>
 
 [参考](https://aclanthology.org/2024.emnlp-main.667.pdf)  
@@ -380,6 +386,8 @@ miniF2Fベンチマーク上で、BC-Proverは従来の前方連鎖型プロー�
 </details>
 
 <details><summary>Transforming General-Purpose LLMs into Lean4 Experts</summary>
+
+**出典再確認（2026-10-05）**：[原論文](https://aclanthology.org/2024.emnlp-main.667.pdf) §2.1・§3.2では、OBTは106,852件、主実験の基盤モデルはLlama3-8B-Instruct。DeepSeek-Math-7Bへの適用はAppendix Gの追加実験である。以下の旧メモの「約800万件」やPass@64/1700・FIMOの数値は、この論文の主結果として使わない。pass@kも「成功サンプル数/k」ではなく、k回以内に正解を得られるかという問題単位の評価と区別する。旧メモを参照する際は、本追記と[検証の横断ノート](../../topics/formal-proof-validation.md)、原論文を優先する。
 
 ---
 
@@ -618,7 +626,11 @@ TheoremLlama の核となるのは、「自然言語ベースの数学問題群�
 
 </details>
 
+<a id="performance-aligned-llms"></a>
+
 <details><summary>Performance-Aligned LLMs for Generating Fast Code</summary>
+
+**出典再確認（2026-10-05）**：原論文では教師あり微調整後のモデルを出発点に、RLPFとDPAを別々に適用して比較している。「RLPF／DPA併用が最良」という旧記述の裏付けはこの比較にはない。速度指標には候補数と基準実装が含まれ、ParEvalの並列結果は逐次実装を基準とする。 [原論文](https://arxiv.org/html/2404.18864v1) VI, VII-A/Table II, VII-D, VIII。比較の考え方は[横断ノート](../../topics/code-optimization-evaluation.md)を参照。旧メモは記録として残すが、再利用時はこの補足を優先する。
 
 ---
 
