@@ -113,6 +113,7 @@ print(json.dumps({"python": sys.version, "os": platform.platform(),
 
 ## 関連する横断ノート
 
+- [点群評価の実務](point-cloud-evaluation.md)：モデル比較でも、探索・選択に使うデータと最終評価を分けて考える。
 - [形式証明の検証](formal-proof-validation.md)
 - [CADと3D表現の選び分け](cad-representations.md)
 

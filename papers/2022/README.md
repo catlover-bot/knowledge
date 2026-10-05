@@ -2,6 +2,12 @@
 
 [テーマ別の入口へ戻る](../../topics/README.md)
 
+## 図解付きの論文ノート
+
+- [点群の劣化ベンチマークを読み分ける](point-cloud-corruptions.md)：ModelNet-CとModelNet40-Cの違いを、条件と指標から整理する。
+
+## 既存の読書記録
+
 <details><summary>Fine-tuning gpt-2 to patch programs, is it worth it?.</summary>
 
 - [参考](https://real.mtak.hu/150350/1/Lajko-ISSQ2022.pdf)

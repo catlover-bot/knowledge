@@ -4,6 +4,7 @@
 
 - [テーマから読む](topics/README.md)：6つの問いから、関連する記事・論文へ進む
 - [図解で読む四つの研究](topics/README.md#図解で読む四つの研究)：RAG、MLGO、証明探索、Text2CADを仕組みから理解する
+- [点群を学ぶ4ステップ](topics/README.md#点群を学ぶ4ステップ)：順序への不変性、局所構造、劣化耐性、公平な評価をつなぐ
 - [証明の検証](topics/formal-proof-validation.md) / [コード最適化の比較](topics/code-optimization-evaluation.md) / [CADの表現選び](topics/cad-representations.md)：複数の資料をつなぐ横断ノート
 - [記事メモの一覧](articles/README.md)
 - [論文メモの一覧](papers/README.md)
