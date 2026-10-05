@@ -71,6 +71,7 @@ AIDLの原論文では、エラーを消す過程で制約を削り、設計意�
 
 ## 関連する横断ノート
 
+- [点群評価の実務](point-cloud-evaluation.md)：形状を作る課題から、測定した点を認識する課題へ進むときの評価の違い。
 - [形式証明の検証](formal-proof-validation.md)
 - [コード最適化の評価](code-optimization-evaluation.md)
 
