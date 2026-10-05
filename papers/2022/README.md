@@ -1,5 +1,7 @@
 # Papers  2022
 
+[テーマ別の入口へ戻る](../../topics/README.md)
+
 <details><summary>Fine-tuning gpt-2 to patch programs, is it worth it?.</summary>
 
 - [参考](https://real.mtak.hu/150350/1/Lajko-ISSQ2022.pdf)
@@ -9,6 +11,8 @@
     > 結果として、ファインチューニングされたGPT-2は、ある程度のプログラム修正を自動で生成できることが確認されたが、すべてのケースで最適な解決策を提案するわけではないことも明らかになった。つまり、GPT-2は特定のシンプルな問題に対するアプローチとしては有用であるものの、より複雑なバグ修正には限界があることが示唆される。さらに、研究はGPT-2のサイズやファインチューニングに使ったデータセットの影響についても考察している。より大きなモデルや多様で質の高いデータセットを使用した場合、パフォーマンス向上の可能性がある。  
     > 結論として、GPT-2をファインチューニングしてプログラム修正に利用することは一定の価値があるものの、現状では補助的なツールとしての活用が妥当であり、この技術のさらなる進化が必要とされている。  
 </details>
+
+<a id="race"></a>
 
 <details><summary>RACE: Retrieval-Augmented Commit Message Generation</summary>
 

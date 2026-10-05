@@ -1,5 +1,9 @@
 # Papers  2012
 
+[テーマ別の入口へ戻る](../../topics/README.md)
+
+<a id="design-patterns"></a>
+
 <details><summary>デザインパターンへのソフトウェア工学的な取り組み</summary>
 
 - [参考](https://www.jstage.jst.go.jp/article/jssst/29/1/29_1_1_130/_pdf)

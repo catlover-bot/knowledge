@@ -2,6 +2,8 @@
 
 記事・論文を読み返したときに、リンク先を開かなくても要点と使いどころを思い出せるようにする知見集。
 
+- [テーマから読む](topics/README.md)：6つの問いから、関連する記事・論文へ進む
+- [証明の検証](topics/formal-proof-validation.md) / [コード最適化の比較](topics/code-optimization-evaluation.md) / [CADの表現選び](topics/cad-representations.md)：複数の資料をつなぐ横断ノート
 - [記事メモの一覧](articles/README.md)
 - [論文メモの一覧](papers/README.md)
 - [研究・制作の日誌](journals/README.md)

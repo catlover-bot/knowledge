@@ -1,5 +1,7 @@
 # Papers  2025
 
+[テーマ別の入口へ戻る](../../topics/README.md)
+
 <details><summary>An Empirical Study on Commit Message Generation using LLMs via In-Context Learning</summary>
 
 以下の論文は、LLM（大規模言語モデル）とIn-Context Learning（ICL）を用いたコミットメッセージ生成の能力を体系的に評価した経験的研究です。以下、主要な内容を整理してご紹介します。
@@ -160,6 +162,8 @@ Devansh Yadav, Shouvick Mondal（Indian Institute of Technology Gandhinagar） (
 [1]: https://www.researchgate.net/profile/Shouvick-Mondal/publication/388350808_Evaluating_Pre-trained_Large_Language_Models-on-Zero-Shot-Prompts-for-Parallelization-of-Source-Code/links/679378a096e7fb48b99bb04e/Evaluating-Pre-trained-Large-Language-Models-on-Zero-Shot-Prompts-for-Parallelization-of-Source-Code.pdf "Evaluating Pre-trained Large Language Models on Zero Shot Prompts for Parallelization of Source Code"
 
 </details>
+
+<a id="cad-llama"></a>
 
 <details><summary>CAD-Llama: Leveraging Large Language Models for Computer-Aided Design Parametric 3D Model Generation</summary>
 

@@ -1,5 +1,9 @@
 # Journals
 
+[テーマから読む](../topics/README.md) / [リポジトリのトップ](../README.md)
+
+当時の研究・制作記録。結果を再利用するときは、実験条件と元データの確認範囲を区別する。
+
 Historical content is read-only.
 
 - [202404](2024/202404.md)

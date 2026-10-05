@@ -1,5 +1,7 @@
 # Papers  Undated / Review Needed
 
+[テーマ別の入口へ戻る](../topics/README.md)
+
 <details><summary>ファイル検索におけるアクセスログから抽出した関連度の利用</summary>
 
 - [参考](https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_action_common_download&item_id=18831&item_no=1&attribute_id=1&file_no=1)
@@ -308,7 +310,11 @@
 > - 今後の方向性: レキシコンのさらなる改良、追加の構文解析手法の検討、または他のNLPタスクでのAMRの適用の拡大など、今後の研究分野を提案する場合がある。  
 </details>
 
+<a id="deepseek-prover"></a>
+
 <details><summary>DeepSeek‑Prover: Advancing Theorem Proving in LLMs through Large‑Scale Synthetic Data</summary>
+
+出典追加（2026-10-05）：[原論文 arXiv:2405.14333](https://arxiv.org/abs/2405.14333)。論文の同一性と概要を確認してリンクを補った。以下の旧メモの全数値を再実験したものではない。
 
 ## 背景と課題
 従来の形式証明支援システム（Lean,Isabelle,Coqなど）は、高い正確性を保証する一方で、証明を書くには高度な専門知識と多大な手間が必要である。一方、LLMは自然言語による数学推論で優れた性能を示すものの、Lean4などの形式証明言語で完全な定理証明を生成するには、並列コーパス（命題⇄証明）データが著しく不足していた。
@@ -341,7 +347,11 @@
 本手法は、**合成データのスケールと品質担保の両立**により、LLMを用いた形式証明生成の実用的可能性を大きく前進させた点で大きな新規性がある。
 </details>
 
+<a id="llm-compiler-optimization"></a>
+
 <details><summary>Large Language Models for Compiler Optimization</summary> 
+
+**出典再確認（2026-10-05）**：原論文の主評価は -Oz 比のLLVM IR命令数削減であり、-O3 比の実行時間改善ではない。最適化パス列をコンパイラへ渡す課題と、補助出力のコード生成を分けて読む。「補助タスクによる強化学習」という旧見出しとは異なり、原論文は命令数・最適化後IRを補助出力とする言語モデル学習を扱う。 [原論文](https://arxiv.org/pdf/2309.07062v1) II, III-C, IV-B, IV-D。比較の考え方は[横断ノート](../topics/code-optimization-evaluation.md)を参照。旧メモは記録として残すが、再利用時はこの補足を優先する。
 
 [参考](https://arxiv.org/pdf/2309.07062?utm_source=chatgpt.com)
 ## 目的
@@ -367,6 +377,8 @@
 </details>
 
 <details><summary>ACPO: AI‑Enabled Compiler Framework</summary>
+
+**出典再確認（2026-10-05）**：正式題名は ACPO: AI-Enabled Compiler-Driven Program Optimization。コンパイラの最適化判断へMLを組み込む枠組みで、ループ展開の例は手作り特徴量を入力するニューラルネットである。LLMのコード生成手法と区別して比較する。 [原論文](https://arxiv.org/html/2312.09982v1) 4.2, 5.1.1。比較の考え方は[横断ノート](../topics/code-optimization-evaluation.md)を参照。旧メモは記録として残すが、再利用時はこの補足を優先する。
 
 [参考](https://arxiv.org/abs/2312.09982?utm_source=chatgpt.com)
 ## 背景・目的
@@ -397,7 +409,11 @@
 - フレームワーク自体は他の最適化パス（例: ベクトル化、レジスタ割り当てなど）へも容易に拡張可能であり、今後さらなる ML ベース最適化手法の実装が期待される。
 </details>
 
+<a id="meta-llm-compiler"></a>
+
 <details><summary>Meta Large Language Model Compiler: Foundation Models of Compiler Optimization</summary>
+
+**出典再確認（2026-10-05）**：フラグ調整の目的はバイナリサイズ最小化で、比較基準は -Oz。「最適化ポテンシャルの77%」は自動探索で得られるサイズ削減との比較であり、実行速度の改善率ではない。 [原論文](https://arxiv.org/html/2407.02524v1) 3.1, 5.1。比較の考え方は[横断ノート](../topics/code-optimization-evaluation.md)を参照。旧メモは記録として残すが、再利用時はこの補足を優先する。
 
 [参考](https://arxiv.org/html/2407.02524v1?utm_source=chatgpt.com)
 ## 背景
@@ -943,6 +959,8 @@ arXiv:2501.01277v2 \[cs.SE], 3 January 2025 ([arxiv.org][1])
 
 <details><summary>CAD-LLM: Large Language Model for CAD Generation</summary>
 
+**出典再確認（2026-10-05）**：[原論文](https://neuripscreativityworkshop.github.io/2023/papers/ml4cd2023_paper15.pdf) §2では、CAD F1はエンティティ単位の適合率・再現率から求める。以下の旧メモのようにEntity AccuracyとSketch Accuracyの調和平均として計算しない。元の説明は記録として残すが、指標を再利用するときは原論文の定義を優先する。
+
 [参考](https://neuripscreativityworkshop.github.io/2023/papers/ml4cd2023_paper15.pdf)  
 
 ## 概要
@@ -1018,6 +1036,8 @@ CAD-LLMは，いずれの指標においても他手法を大きく上回り，�
 [3]: https://www.research.autodesk.com/app/uploads/2024/05/cadllm_neurips2023_workshop-1.pdf?utm_source=chatgpt.com "[PDF] CAD-LLM: Large Language Model for CAD Generation"
 [4]: https://arxiv.org/abs/2409.17457?utm_source=chatgpt.com "CadVLM: Bridging Language and Vision in the Generation of Parametric CAD Sketches"
 </details>
+
+<a id="aidl"></a>
 
 <details><summary>A Solver-Aided Hierarchical Language for LLM-Driven CAD Design</summary>
 
@@ -1098,6 +1118,8 @@ CAD-LLMは，いずれの指標においても他手法を大きく上回り，�
 </details>
 
 <details><summary>Query2CAD: Generating CAD Models Using Natural Language Queries</summary>
+
+**出典再確認（2026-10-05）**：[原論文Table 2](https://arxiv.org/html/2406.00144v1#S5.T2)のGPT-4成功率は、初回53.6%、第1回修正後73.2%、第2回以降76.7%。初回からの23.1ポイント増は修正全体の増分で、第1回だけの増分は19.6ポイントである。Table 1の難易度別成功率を「初回試行」とする旧メモのラベルも採用しない。記録は残すが、比較時はこの追記と原表を優先する。
 
 [参考](https://arxiv.org/pdf/2406.00144)  
 
@@ -1724,6 +1746,8 @@ Abstract page for arXiv paper 2605.27366: MUSE-Autoskill: Self-Evolving Agents v
 PaperMentor is an open-source, multi-agent AI writing assistant that provides actionable, expert-level feedback on AI research papers during the drafting phase in Overleaf, significantly improving the quality of comments compared to traditional AI writing tools.
 
 </details>
+
+<a id="scientific-figures"></a>
 
 <details><summary>科学論文での図表作成のルール</summary>
 
