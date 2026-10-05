@@ -161,8 +161,13 @@ def anchors(text):
 
 
 def default_sources(root):
-    """Only navigation sources by default; target outbound links are not traversed."""
-    return [root / name for name in DEFAULT_FILES] + sorted((root / "topics").rglob("*.md"))
+    """Navigation and paper notes; historical journal outbound links stay opt-in."""
+    sources = [root / name for name in DEFAULT_FILES]
+    sources += sorted((root / "topics").rglob("*.md"))
+    sources += sorted((root / "papers").rglob("*.md"))
+    if (root / "assets/diagrams/README.md").is_file():
+        sources.append(root / "assets/diagrams/README.md")
+    return list(dict.fromkeys(sources))
 
 
 def expand_paths(paths):
@@ -233,8 +238,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Check local Markdown file and anchor links offline (standard library only).",
         epilog=(
-            "Default source scope: README.md, CONTRIBUTING.md, topics/**/*.md, and "
-            "articles/README.md, papers/README.md, journals/README.md. Target anchors are "
+            "Default source scope: README.md, CONTRIBUTING.md, topics/**/*.md, papers/**/*.md, "
+            "assets/diagrams/README.md when present, articles/README.md and journals/README.md. Target anchors are "
             "checked, but their outgoing links are not followed unless selected as sources. "
             "Pass . from the repository root for a broader scan, including historical journals. "
             "Supported: inline links, single-line reference-definition destinations, explicit "

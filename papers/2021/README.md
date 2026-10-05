@@ -2,6 +2,12 @@
 
 [テーマ別の入口へ戻る](../../topics/README.md)
 
+## 図解付きの論文ノート
+
+- [MLGO：コンパイラの判断を学習する](mlgo.md)
+
+## 既存の読書記録
+
 <a id="commitbert"></a>
 
 <details><summary>CommitBERT: Commit Message Generation Using Pre-Trained Programming Language Model</summary>
