@@ -1,8 +1,8 @@
 # 解説図の出典と作成方針
 
-作成日：2026-10-05。
+作成日：2026-10-05。点群の分割図は2026-10-06に描き直した。
 
-このディレクトリの11点は、各読書ノート・横断ノートのために新しく構成した**独自のSVG概念図**です。著者の図版・スクリーンショット・既存のアイコン素材を転載、トレース、再配布したものではありません。箱、矢印、単純な幾何形状、日本語ラベルを組み合わせて作成しました。数値のグラフや、再実験による測定結果は含みません。
+このディレクトリの11点は、各読書ノート・横断ノートのために新しく構成した**独自のSVG概念図**です。著者の図版・スクリーンショット・既存のアイコン素材を転載、トレース、再配布したものではありません。箱、矢印、点列、単純な幾何形状、日本語ラベルを組み合わせて作成しました。数値のグラフや、再実験による測定結果は含みません。
 
 原著から確認した仕組みと、このリポジトリで提案する確認手順・想定例は、参照先の本文で区別しています。論文の結果や保証の範囲は、図だけで判断せず、本文の出典と確認範囲を参照してください。
 
@@ -19,7 +19,7 @@
 - **[pointnet-set-function.svg](pointnet-set-function.svg)** — [PointNetの読書ノート](../../papers/2017/pointnet.md)。[Qi et al., arXiv:1612.00593v2](https://arxiv.org/pdf/1612.00593v2)、§4.2。共有MLPとチャネルごとのmax、分類の不変性と点ごとの分割の同変性を説明しました。A＝(1,4)、B＝(3,2)、C＝(2,1)は仮の特徴で、座標や実測値ではありません。点ラベルも仮の例です。T-Netなどの整列処理を省略しています。
 - **[pointnet-hierarchy.svg](pointnet-hierarchy.svg)** — [PointNet++の読書ノート](../../papers/2017/pointnet-plus-plus.md)。[Qi et al., NeurIPS 2017](https://proceedings.neurips.cc/paper/2017/file/d8bf84be3800d12f74d8b05e9b89836f-Paper.pdf)、§3.2–3.3、および[著者公開の層の実装](https://github.com/charlesq34/pointnet2/blob/42926632a3c33461aebfbee2d829098b30a23aaa/utils/pointnet_util.py)。FPSによる既存点の選択、固定半径の球近傍、相対座標からの局所特徴、階層化を示しました。橙色の中心は前段の点配置にある点です。円は球近傍の二次元模式図で、配置・密度・縮尺は架空です。MSGは同じ段・同じ中心の複数半径として描き、MRGの別経路と点への特徴の伝播は省略しています。
 - **[pointcloud-corruption-protocols.svg](pointcloud-corruption-protocols.svg)** — [点群劣化ベンチマークの読書ノート](../../papers/2022/point-cloud-corruptions.md)。[Ren et al., ICML 2022](https://proceedings.mlr.press/v162/ren22c/ren22c.pdf)、§3.1–3.4、および[Sun et al., arXiv:2201.12296v1](https://arxiv.org/pdf/2201.12296v1)、§3–5・Table 2・Fig. 4。ModelNet-Cの7種類×5強度とDGCNN基準のmCE、ModelNet40-Cの13種類×5強度＋2種類×5視点と未正規化の平均誤り率ERcorを区別しました。ERcorの平均係数は本文の式と表の違いに注意して本ノートが明記したものです。上部は比較時に推論方式を分ける本ノートの整理で、BN／TENTはSunらの評価例。点配置は独自の模式例で、性能や学習・評価範囲の非重複を示す図ではありません。
-- **[pointcloud-evaluation-split.svg](pointcloud-evaluation-split.svg)** — [点群評価の横断ノート](../../topics/point-cloud-evaluation.md)。[Kapoor & Narayanan, arXiv:2207.07048v1](https://arxiv.org/html/2207.07048v1)、§2.4・3.2–3.4、[scikit-learn公式の前処理指針](https://scikit-learn.org/stable/common_pitfalls.html)、§12.2–12.3、および[GroupKFold公式文書](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html)を踏まえた本ノート独自の提案です。取得元でのグループ分割を拡張前に行い、Trainで学習、Valで選択、条件固定後にTestで別々の問いを評価します。原著ベンチマーク全てがこの手順を採用したという主張ではありません。A1・A2などは架空の派生点群で、実データや実際の被験者を含みません。
+- **[pointcloud-evaluation-split.svg](pointcloud-evaluation-split.svg)** — [点群評価の横断ノート](../../topics/point-cloud-evaluation.md)。[Kapoor & Narayanan, arXiv:2207.07048v1](https://arxiv.org/html/2207.07048v1)、§2.4・3.2–3.4、[scikit-learn公式の前処理指針](https://scikit-learn.org/stable/common_pitfalls.html)、§12.2–12.3、および[GroupKFold公式文書](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html)を踏まえた本ノート独自の提案です。2026-10-06の改稿では、同じ椅子Aから抽出したA1・A2を両側に分けた場合と、椅子A・Bを物体単位で分けた場合を対比しました。点配置は独自に作った架空例で、実データや実際の被験者を含みません。未知物体への評価に必要な分割を説明する図であり、原著ベンチマーク全てがこの手順を採用したという主張ではありません。検証用グループは図から省略していますが、設定選択にはテストと独立した検証用グループが必要です。
 
 ## 表示・アクセシビリティ
 
@@ -27,7 +27,9 @@
 - 日本語ラベルは22px以上。`Noto Sans CJK JP`等のフォールバックを指定し、外部フォント取得は行いません。
 - 各SVGに`title`、`desc`、`role="img"`と`aria-labelledby`を設定。本文の画像にも内容を説明する代替テキストを置いています。
 - スクリプト、外部画像、外部リソース、`foreignObject`は使用していません。
-- 表示点検日：2026-10-05。InkscapeとローカルのNoto日本語フォントで幅640px・360pxのPNGを作成し、文字の欠落・重なり・端切れを点検しました。点検用PNGはリポジトリには含めていません。表示先に同じフォントがない場合は字形・字幅が多少変わります。
+- 全11点の表示点検日：2026-10-05。InkscapeとローカルのNoto日本語フォントで幅640px・360pxのPNGを作成し、文字の欠落・重なり・端切れを点検しました。点検用PNGはリポジトリには含めていません。表示先に同じフォントがない場合は字形・字幅が多少変わります。
+
+- 点群の分割図は2026-10-06に再点検。InkscapeとローカルのNoto日本語フォントで幅640px・360pxのPNGを作成し、点配置、分割境界、同じ物体を結ぶ線、ラベルの読みやすさを確認しました。
 
 ## 権利について
 
