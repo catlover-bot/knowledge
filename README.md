@@ -20,7 +20,7 @@
 
 ### 2026
 
-[8月](articles/2026/202608.md) / [7月](articles/2026/202607.md) / [6月](articles/2026/202606.md) / [5月](articles/2026/202605.md) / [4月](articles/2026/202604.md) / [3月](articles/2026/202603.md) / [2月](articles/2026/202602.md) / [1月](articles/2026/202601.md)
+[11月](articles/2026/202611.md) / [8月](articles/2026/202608.md) / [7月](articles/2026/202607.md) / [6月](articles/2026/202606.md) / [5月](articles/2026/202605.md) / [4月](articles/2026/202604.md) / [3月](articles/2026/202603.md) / [2月](articles/2026/202602.md) / [1月](articles/2026/202601.md)
 
 ### 2025
 

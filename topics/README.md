@@ -88,12 +88,18 @@ Transformerの構造が曖昧なら、[入力から出力までの記録](../art
 
 追記の約束と確認コマンドは[CONTRIBUTING](../CONTRIBUTING.md)にまとめた。各ページの見出しを同じにそろえる必要はない。
 
+## 開発の途中を扱う道具
+
+[2026年11月の技術メモ](../articles/2026/202611.md)では、完成する前の状態を取り出して比較・修正する道具を読んだ。Leanの[タクティク提案](../articles/2026/202611.md#lean-copilot)と[REPL](../articles/2026/202611.md#lean-repl)、Swiftの[スナップショット比較](../articles/2026/202611.md#swift-snapshot-testing)、Reactの[楽観的更新](../articles/2026/202611.md#tanstack-db)へつながる。
+
+コードの形を探す[ast-grep](../articles/2026/202611.md#ast-grep)、変更履歴を組み直す[Jujutsu](../articles/2026/202611.md#jujutsu)、ゲームの処理順序を考える[Bevy ECS](../articles/2026/202611.md#bevy-ecs)も掲載。再現できる失敗と検査する不変条件については、[TigerBeetleのDST記事](../articles/2026/202611.md#protocol-aware-dst)を読む。各項目の利用案は未実施。
+
 ## 日付から戻る
 
 [記事一覧](../articles/README.md) · [論文一覧](../papers/README.md) · [日誌一覧](../journals/README.md)
 
 原文をまだ読めていない[Xの参考リンク1](../articles/2026/202608.md#source-pending-noimos)と[参考リンク2](../articles/2026/202608.md#source-pending-wayama)は、要約せず確認待ちとして残している。
 
-更新：2026-10-06。元の読書記録は移動していない。古い記録の数値・実装条件を使う際は、リンク先の一次資料と確認日まで戻る。閉じている項目は見出しを開いて読む。
+更新：2026-11-11。元の読書記録は移動していない。古い記録の数値・実装条件を使う際は、リンク先の一次資料と確認日まで戻る。閉じている項目は見出しを開いて読む。
 
 [リポジトリのトップへ戻る](../README.md)
